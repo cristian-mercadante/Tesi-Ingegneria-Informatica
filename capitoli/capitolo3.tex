@@ -1,0 +1,40 @@
+\chapter{Docker}
+\label{Docker}
+\thispagestyle{empty}
+
+Docker è una piattaforma per sviluppare, spedire e avviare applicazioni usando la tecnologia dei container.
+
+% paragrafo introduttivo sull'innovazione portata da Docker
+\section{Introduzione}
+Il progresso dell'industria tecnologica procede ad un ritmo elevatissimo e sempre più aziende hanno bisogno di strumenti affidabili e facilmente scalabili a seconda delle esigenze. La piattaforma Docker è lo strumento all'avanguardia che permette la consegna ed installazione di servizi in semplicità e sicurezza, mediante componenti leggeri e standard, assai portabili e aggiornabili, chiamati container. Questi non solo sono utilizzati per sviluppare nuovi servizi e micro-servizi, ma anche per eseguire applicazioni esistenti, preparandole ad una futura modernizzazione. Infatti i vantaggi della piattaforma hanno convinto l'industria, che oggi confida sempre più su questa tecnologia, costruendo piattaforme di container.
+
+% paragrafo riguardante le piattaforme OS e le versioni
+\section{Versioni}
+Docker è un software disponibile per diverse piattaforme fra cui sistemi Linux (Ubuntu, Fedora, Debian, CentOS), Windows, Mac, ma anche in cloud (Amazon Web Services, Microsoft Azure). Sono disponibili due versioni:
+\begin{itemize}
+    \item Community Edition (CE): gratuita, ideale per sviluppatori singoli e per piccoli team. Possiede le funzionalità di base della piattaforma (engine, orchestration tools, networking e security).
+    \item Enterprise Edition (EE): studiata per sviluppo aziendale e per team che sviluppano, spediscono ed eseguono applicazioni essenziali per l'impresa.
+\end{itemize}
+
+% elenco dei componenti, come sono collegati e come funzionano
+\section{Architettura e funzionamento}
+Docker utilizza funzionalità di virtualizzazione del kernel Linux per avviare servizi e applicazioni in un ambiente isolato, protetto e sicuro. Utilizza \verb|libcontainer| per creare container con namespaces, cgroups, proprietà e filesystem.
+
+La piattaforma Docker è costituita da diversi componenti, fra i quali i più importanti sono:
+\begin{itemize}
+    \item Docker Engine: programma che abilita i container e li esegue. Utilizza namespaces e cgroups per isolare ciò che l'ambiente è in grado di vedere e per isolare risorse (CPU, RAM, dispositivi, ecc.).
+    \item Docker Machine: strumento che installa il Docker Engine sugli host.
+    \item Docker Hub: servizio di memorizzazione di immagini pubbliche disponibili all'uso.
+    \item Docker Swarm: strumento che raggruppa diversi Engine e pianifica il funzionamento dei container.
+    \item Docker Compose: strumento per creare e gestire applicazioni multi-container.
+\end{itemize}
+
+%%%%%%%%%%%%proseguire da qui leggendo https://docs.docker.com/engine/docker-overview/#the-docker-platform
+
+% praragrafo dedicato al container. Immagini, docker hub, docker compose
+\section{Container}
+Un container è un ambiente di esecuzione di servizi e applicazioni che condivide il kernel del sistema host e che può essere o no isolato rispetto ad altri container.
+ 
+% breve confronto prestazionale fra container e VMs. INCLUDERE QUALCHE IMMAGINE
+\section{Vantaggi rispetto alla virtualizzazione}
+I container risultano più leggeri rispetto a macchine virtuali perché non necessitano dell'installazione di un sistema operativo guest. Richiedono inoltre meno CPU, RAM e spazio d'archiviazione. Sono infine maggiormente portabili, perché le applicazioni installate funzionano in un ambiente controllato e preparato ad hoc, anziché richiedere hardware e software specifici.

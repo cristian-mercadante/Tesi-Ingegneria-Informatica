@@ -1,0 +1,27 @@
+\chapter{Installazione}
+\label{Installazione}
+\thispagestyle{empty}
+
+% per scrivere codice bash
+\lstset{language=bash}
+
+\section{Docker}
+
+\begin{itemize}
+    \item  
+    Aggiornare l'indice di \verb|apt-get|.
+    \begin{lstlisting}
+sudo apt-get update
+    \end{lstlisting}
+    
+    \item
+    Installare i pacchetti per permettere a \verb|apt-get| di utilizzare un repository su HTTPS.
+    \begin{lstlisting}
+sudo apt-get install -y apt-transport-https \
+ca-certificates curl software-properties-common
+    \end{lstlisting}
+\end{itemize}
+
+
+\section{Docker Compose}
+

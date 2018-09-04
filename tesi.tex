@@ -1,0 +1,88 @@
+\documentclass[11pt,a4paper,twoside,openright]{book}
+
+\usepackage[dvips]{graphicx}
+%\usepackage{tabularx}
+%\usepackage{subfigure}
+%\usepackage{afterpage}
+%\usepackage{amsmath,amssymb}            
+%\usepackage{rotating}  
+\usepackage{fancyhdr}  
+\usepackage[scriptsize]{caption} 
+\usepackage{geometry}
+
+% per codice shell
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+
+% per sillabazione
+\hyphenation{a-gen-tiz-za-zio-ne}
+
+%\setlength{\paperwidth}{16cm}
+%\setlength{\paperheight}{24cm}
+%\setlength{\oddsidemargin} {2. cm}
+%\setlength{\evensidemargin} {2. cm}
+%\addtolength{\oddsidemargin} {-0.4 cm}
+%\addtolength{\evensidemargin} {-0.4 cm}
+\geometry{
+    paper=a4paper,
+    margin=3cm,
+    headheight=13.6cm
+}
+
+\linespread{1.1}
+
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\renewcommand{\captionfont}{\normalfont \sffamily \itshape \small}
+
+\pagestyle{empty}
+
+\begin{document}
+\include{frontespizio}
+
+%\thispagestyle{empty} \normalfont \cleardoublepage
+%\include{dedica}
+
+\thispagestyle{empty}  \cleardoublepage
+\pagenumbering{roman}
+\include{indice}
+
+%\thispagestyle{empty} \vspace*{.75truecm} \cleardoublepage
+%\include{ringraziamenti}
+
+\thispagestyle{empty} \vspace*{.75truecm} \normalfont \cleardoublepage
+\pagestyle{fancy} \renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}         
+\fancyhead[LE,RO]{\bfseries \thepage}
+\fancyhead[RE]{\bfseries\leftmark}
+\fancyhead[LO]{\bfseries\rightmark}     
+\renewcommand{\headrulewidth}{0.3pt}
+
+\pagenumbering{arabic}
+
+\include{capitoli/capitolo1}
+\include{capitoli/capitolo2}
+\include{capitoli/capitolo3}
+\include{capitoli/capitolo4}
+\include{capitoli/capitolo5}
+\include{capitoli/capitolo6}
+%\include{capitoli/capitolo7}
+
+\cleardoublepage
+% ---- Bibliography ----
+%\addcontentsline{toc}{chapter}{Bibliografia}
+%\bibliographystyle{plain}
+%\bibliography{bibl_tesi}
+%\nocite{*}
+
+\end{document}
+
+
+
+
+
