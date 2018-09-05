@@ -1,6 +1,7 @@
 \documentclass[11pt,a4paper,twoside,openright]{book}
 
 \usepackage[dvips]{graphicx}
+\graphicspath{ {./immagini/} }
 %\usepackage{tabularx}
 %\usepackage{subfigure}
 %\usepackage{afterpage}
@@ -13,11 +14,17 @@
 % per codice shell
 \usepackage{xcolor}
 \usepackage{listings}
-\lstset{basicstyle=\ttfamily,
+\definecolor{my-blue}{rgb}{0,0,0.3}
+\definecolor{my-red}{rgb}{0.3,0,0}
+
+\lstdefinestyle{my-bash}{
+  basicstyle=\ttfamily,
   showstringspaces=false,
-  commentstyle=\color{red},
-  keywordstyle=\color{blue}
+  basicstyle=\color{my-blue}\ttfamily,
+  commentstyle=\color{my-red},
+  language=bash
 }
+
 
 % per sillabazione
 \hyphenation{a-gen-tiz-za-zio-ne}
