@@ -14,7 +14,7 @@ Docker è un software disponibile per diverse piattaforme fra cui sistemi Linux 
     \item Enterprise Edition (EE): studiata per sviluppo aziendale e per team che sviluppano, spediscono ed eseguono applicazioni essenziali per l'impresa.
 \end{itemize}
 
-\section{Architettura e funzionamento}
+\section{Architettura, componenti e funzionamento}
 Docker utilizza funzionalità di virtualizzazione del kernel Linux per avviare servizi e applicazioni in un ambiente isolato, protetto e sicuro. Utilizza \verb|libcontainer| per creare container con namespaces, cgroups, proprietà e filesystem.
 
 In seguito si descriveranno i componenti base di Docker e di come interagiscano fra loro.
@@ -36,39 +36,44 @@ Docker Engine è un'applicazione con architettura di tipo client-server. È cost
     \item Una REST API in che modo i programmi possono interagire con il processo daemon.
     \item Un'interfaccia a linea di comando (\verb|docker|) che rappresenta il client.
 \end{itemize}
-Il daemon riceve richieste API e per gestire container, immagini, reti e volumi e può anche comunicare con altri daemon per gestire servizi Docker più complessi. Il client invece, eseguendo comandi come \verb|docker run|, utilizza le API per comunicare col daemon.
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
     \includegraphics[scale=0.5]{immagini/engine-components-flow.png}
     \caption{Struttura del Docker Engine}
     \label{fig:docker-engine}
 \end{figure}
 
-\begin{figure}[ht]
+Il daemon riceve richieste dal client per costruire, eseguire e distribuire container e può anche comunicare con altri daemon per gestire servizi Docker più complessi. Il client invece, eseguendo comandi come \verb|docker run|, utilizza le REST API, socker UNIX o interfacce di rete per comunicare col daemon. Client e server possono essere eseguiti sullo stesso host oppure su macchine differenti. Nell'\hyperref[fig:docker-architecture-example]{esempio sottostante} possiamo osservare come il daemon gestisce richieste differenti. Ad esempio \verb|docker pull| ordina al server di collegarsi a \hyperref[docker-hub]{Docker Hub} per scaricare l'immagine di Redis, mentre \verb|docker run| richiede che l'immagine di Ubuntu sia avviata.
+
+\begin{figure}[h]
     \centering
-    \includegraphics[scale=0.3]{immagini/architecture.png}
+    \includegraphics[width=\textwidth]{immagini/architecture.png}
     \caption{Esempio funzionamento Docker Engine}
-    \label{fig:docker-architecture}
+    \label{fig:docker-architecture-example}
 \end{figure}
 
-\subsection{Docker Hub}
+\subsection{Docker Hub}\label{docker-hub}
 Docker Hub è un servizio che consente di collegarsi a repository di container. Permette agli utenti di caricare e scaricare liberamente immagini di container da avviare sui propri host. Costituisce inoltre il nodo centrale per lo sviluppo, la distribuzione e gestione delle modifiche dei container. Docker Hub contiene un gran numero di repository ufficiali, pubblici e certificati dai fornitori. Fra questi si citano Nginx, Redis, MongoDB, Ubuntu, PostgreSQL, Node.js, MySQL, Tomcat e molti altri.
 
 \subsection{Docker Compose}
 %%%%% Descrivere docker compose, vantaggi, connettività
+Docker Compose è uno strumento per definire ed avviare applicazioni Docker multi-container mediante un file YAML chiamato \verb|docker-compose.yml|. In questo file sono contenute tutte le informazioni per la configurazione dei vari servizi. È possibile infatti modificare diversi campi per cambiare il comportamento del container, ad esempio indicando l'immagine o il Dockerfile di riferimento, creando dipendenze da altri servizi, associandogli un numero di porta, indicando comandi da eseguire all'avvio e molto altro. Con lo stesso file si possono gestire più container con le loro dipendenze e avviarli in contemporanea. Pertanto Docker Compose risulta uno strumento utile sia in fase di sviluppo, dove può essere utilizzato per creare ambienti controllati con cui interagire facilmente e testare la propria applicazione, che in fase di distribuzione, quando non è più richiesto all'installatore di preparare l'ambiente per l'applicazione, ma solo di eseguire il comando \verb|docker-compose up|.
 
-%% esempio docker-compose.yml
-\lstinputlisting[style=my-bash, lastline=17]{script/docker-compose.yml}
-
-\subsection{}
+Segue un estratto di \verb|docker-compose.yml| utilizzato per il progetto:
+\lstinputlisting[style=my-bash, lastline=17, caption={Esempio di docker-compose.yml}, captionpos=b]{script/docker-compose.yml}
+È indicata la versione del formato del file, seguita dai servizi da gestire. Per ShareLaTeX si indica con \verb|restart: alwayes| che in caso di errore nel container, questo si riavverà sempre. A seguire si specifica il nome dell'immagine di riferimento, il nome del container che verrà creato, le dipendenze, la priorità del container sugli altri, il numero di porta, i collegamenti con altri container e infine i volumi da montare sull'host fisico per la persistenza dei file.
  
+\section{Tecnologia sottostante}
+%parlare dei namespaces, cgroups, union filesystem, libcontainer, ???containerD
+
+
 % breve confronto prestazionale fra container e VMs. INCLUDERE QUALCHE IMMAGINE
 \section{Vantaggi rispetto alla virtualizzazione}
 I container risultano più leggeri rispetto a macchine virtuali perché non necessitano dell'installazione di un sistema operativo guest. Richiedono inoltre meno CPU, RAM e spazio d'archiviazione. Sono infine maggiormente portabili, perché le applicazioni installate funzionano in un ambiente controllato e preparato ad hoc, anziché richiedere hardware e software specifici.
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{immagini/docker-containerized-and-vm-transparent-bg.png}
     \caption{Stratificazione di un sistema a container e di un sistema con VMs}
-    \label{fig:my_label}
+    \label{fig:container-vs-VM}
 \end{figure}

@@ -2,6 +2,8 @@
 
 \usepackage[dvips]{graphicx}
 \graphicspath{ {./immagini/} }
+\usepackage{float} %per posizionare le immagini nel posto corretto con "H"
+
 %\usepackage{tabularx}
 %\usepackage{subfigure}
 %\usepackage{afterpage}
@@ -10,13 +12,13 @@
 \usepackage{fancyhdr}  
 \usepackage[scriptsize]{caption} 
 \usepackage{geometry}
+\usepackage{hyperref}
 
 % per codice shell
 \usepackage{xcolor}
 \usepackage{listings}
 \definecolor{my-blue}{rgb}{0,0,0.3}
 \definecolor{my-red}{rgb}{0.3,0,0}
-
 \lstdefinestyle{my-bash}{
   basicstyle=\ttfamily,
   showstringspaces=false,
@@ -24,6 +26,7 @@
   commentstyle=\color{my-red},
   language=bash
 }
+\renewcommand{\lstlistingname}{Codice}
 
 
 % per sillabazione
@@ -72,13 +75,7 @@
 
 \pagenumbering{arabic}
 
-\include{capitoli/capitolo1}
-\include{capitoli/capitolo2}
-\include{capitoli/capitolo3}
-\include{capitoli/capitolo4}
-\include{capitoli/capitolo5}
-\include{capitoli/capitolo6}
-%\include{capitoli/capitolo7}
+\input{capitoli/0_elenco.tex}
 
 \cleardoublepage
 % ---- Bibliography ----
