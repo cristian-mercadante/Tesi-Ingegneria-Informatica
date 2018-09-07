@@ -27,7 +27,7 @@ Un'immagine è un template con istruzioni per la creazione di container. Le imma
 \subsection{Container}
 Un container è un'istanza eseguibile di un'immagine. Ogni container possiede i propri processi, la propria memoria, i propri dispositivi e stack di rete. I container isolano quindi il proprio ambiente da quello esterno, assicurandosi che i propri applicativi funzionino sempre e in modo sicuro, indipendentemente dalle specifiche dell'host. È possibile connettere un container alla rete oppure ad altri container, assegnargli spazio di archiviazione e utilizzare lo stato attuale per creare nuove immagini. Pertanto un container è definito dalla sua immagine, dalla sua configurazione di avvio, ma al riavvio ogni modifica al suo stato o ai dati verrà persa.
 
-Per introdurre la persistenza dei dati è necessario utilizzare \emph{volumi}. Questi sono completamente gestiti da Docker, sono facili da eseguire o migrare e sono utlizzabili in sicurezza da più container. La creazione di un volume consiste nella copia di una directory specifica dal filesystem del container verso il filesystem dell'host. Docker gestisce direttamente il contenuto di queste directory. Ad esempio, a seguito del riavvio di un container Docker carica i dati salvati sull'host all'interno della directory specificata, ripristinando il suo stato prima dello spegnimento.
+Per introdurre la persistenza dei dati è necessario utilizzare \emph{volumi}. Questi sono completamente gestiti da Docker, sono facili da eseguire o migrare e sono utilizzabili in sicurezza da più container. La creazione di un volume consiste nella copia di una directory specifica dal filesystem del container verso il filesystem dell'host. Docker gestisce direttamente il contenuto di queste directory. Ad esempio, a seguito del riavvio di un container Docker carica i dati salvati sull'host all'interno della directory specificata, ripristinando il suo stato prima dello spegnimento.
 
 \subsection{Docker Engine}
 Docker Engine è un'applicazione con architettura di tipo client-server. È costituita da tre componenti:
@@ -36,14 +36,12 @@ Docker Engine è un'applicazione con architettura di tipo client-server. È cost
     \item Una REST API in che modo i programmi possono interagire con il processo daemon.
     \item Un'interfaccia a linea di comando (\verb|docker|) che rappresenta il client.
 \end{itemize}
-
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.5]{immagini/engine-components-flow.png}
     \caption{Struttura del Docker Engine}
     \label{fig:docker-engine}
 \end{figure}
-
 Il daemon riceve richieste dal client per costruire, eseguire e distribuire container e può anche comunicare con altri daemon per gestire servizi Docker più complessi. Il client invece, eseguendo comandi come \verb|docker run|, utilizza le REST API, socker UNIX o interfacce di rete per comunicare col daemon. Client e server possono essere eseguiti sullo stesso host oppure su macchine differenti. Nell'\hyperref[fig:docker-architecture-example]{esempio sottostante} possiamo osservare come il daemon gestisce richieste differenti. Ad esempio \verb|docker pull| ordina al server di collegarsi a \hyperref[docker-hub]{Docker Hub} per scaricare l'immagine di Redis, mentre \verb|docker run| richiede che l'immagine di Ubuntu sia avviata.
 
 \begin{figure}[h]
@@ -65,12 +63,27 @@ Segue un estratto di \verb|docker-compose.yml| utilizzato per il progetto:
 È indicata la versione del formato del file, seguita dai servizi da gestire. Per ShareLaTeX si indica con \verb|restart: alwayes| che in caso di errore nel container, questo si riavverà sempre. A seguire si specifica il nome dell'immagine di riferimento, il nome del container che verrà creato, le dipendenze, la priorità del container sugli altri, il numero di porta, i collegamenti con altri container e infine i volumi da montare sull'host fisico per la persistenza dei file.
  
 \section{Tecnologia sottostante}
-%parlare dei namespaces, cgroups, union filesystem, libcontainer, ???containerD
+Docker è scritto in linguaggio GO ed utilizza diverse funzionalità del kernel Linux per eseguire container in ambienti controllati, in modo leggero e veloce. Tali funzionalità sono raccolte all'interno di una libreria chiamata \emph{libcontainer}, che permette a Docker Engine di gestire il ciclo di vita dei container.
 
+\subsection{Namespaces}
+Docker Engine utilizza la tecnologia dei namespaces per creare un gruppo di namespaces all'avvio di ogni container. In tal modo ad ogni container è associato un ambiente isolato, ottenuto come risultato di una partizione delle risorse del kernel host. Pertanto i namespaces limitano ciò che un container vede e quindi più utilizzare. I namespaces utilizzati in Docker sono:
+\begin{itemize}
+    \item PID: per isolare i processi appartenenti ad un determinato container da quelli in esecuzione sull'host o in altri container.
+    \item NET: per la gestione delle interfacce di rete.
+    \item IPC: per la gestire gli accessi alle risorse di Inter Process Communication.
+    \item MNT: per gestire i punti di mount del filesystem.
+    \item UTS: per dare a ogni container un hostname.
+\end{itemize}
+È importante sottolineare che ogni processo è in un namespace di ogni tipo. Ad esempio, processi con un un certo PID namespace possono vedere solo processi nello stesso PID namespace.
 
-% breve confronto prestazionale fra container e VMs. INCLUDERE QUALCHE IMMAGINE
+\subsection{Cgroups}
+Docker Engine utilizza un'altra tecnologia chiamata cgroups, ovvero control groups, per limitare la quantità di risorse utilizzate da un container. Infatti le risorse hardware dell'host sono limitate e devono essere ripartite e condivise fra i container, impostando limiti e vincoli di utilizzo. Cgroups dà la possibilità di limitare le risorse (si pensi alla memoria), definire priorità, misurare le risorse utilizzate e controllare processi qualora superino i limiti imposti, congelandoli e riavviandoli quando possibile.
+
+\subsection{Union filesystems}
+Union filesystem, anche detto UnionFS, è una tecnologia che consente la sovrapposizione di filesystem separati, ovvero l'aggregazione di file e directory differenti e separate per formare un singolo filesystem. Docker Engine utilizza questa tecnologia per costruire container senza duplicare file o directory. Inoltre UnionFS permette la scrittura anche su file che appaiono read-only mediante il meccanismo copy-on-write. Ipotizziamo di voler avviare più container con la stessa immagine: in memoria sarebbero presenti tante copie dei filesystem quanti sono i container avviati. Con il meccanismo copy-on-write, il filesystem utilizzato è uno, mentre tutte le modifiche apportate da ogni container risultano salvate su layer copy-on-write di dimensioni contenute. Questo spiega anche come sia possibile, una volta scritto sul filesystem di un container, avviare un secondo container dalla stessa immagine senza le modifiche del primo.
+
 \section{Vantaggi rispetto alla virtualizzazione}
-I container risultano più leggeri rispetto a macchine virtuali perché non necessitano dell'installazione di un sistema operativo guest. Richiedono inoltre meno CPU, RAM e spazio d'archiviazione. Sono infine maggiormente portabili, perché le applicazioni installate funzionano in un ambiente controllato e preparato ad hoc, anziché richiedere hardware e software specifici.
+Avviare un servizio in uno o più container piuttosto che all'interno di una macchina virtuale risulta conveniente in termini sia di risorse utilizzate, che di facilità di installazione. Infatti gruppi di container sulla stessa macchina condividono il kernel del sistema operativo dell'host, mentre più macchine virtuali necessitano ciascuna di un layer di sistema operativo guest ciascuna. I container sono quindi più leggeri, non richiedono l'installazione di un sistema operativo e utilizzano meno risorse (RAM, CPU, spazio d'archiviazione) grazie ai meccanismi precedentemente descritti. Inoltre l'installazione di un servizio all'interno di una macchina virtuale può richiedere sforzi nell'installazione di vari componenti. Questo problema è ovviato dai container, che possono essere avviati in un ambiente controllato, installati e gestiti facilmente (si pensi a Docker Compose). Emerge quindi la maggiore portabilità del container rispetto alla macchina virtuale.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{immagini/docker-containerized-and-vm-transparent-bg.png}
