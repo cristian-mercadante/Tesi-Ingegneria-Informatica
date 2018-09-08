@@ -19,22 +19,25 @@
 \usepackage{hyperref}
 
 %%%% PACCHETTI PER CODICE
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{listings}
 \renewcommand{\lstlistingname}{Codice}
 \definecolor{my-blue}{rgb}{0,0,0.3}
 \definecolor{my-red}{rgb}{0.3,0,0}
+\definecolor{my-grey}{rgb}{0.95,0.95,0.95}
 \lstdefinestyle{my-yml}{
     showstringspaces=false,
-    basicstyle=\ttfamily\small\color{my-blue},
+    %basicstyle=\ttfamily\small\color{my-blue},
+    basicstyle=\ttfamily\small,
     commentstyle=\color{my-red},
-    language=bash
+    backgroundcolor=\color{my-grey}
 }
 \lstdefinestyle{my-bash}{
     style=my-yml,
-    frame=L,
-    rulecolor=\color{my-blue},
-    xleftmargin=\parindent,
+    language=bash,
+    %frame=L,
+    %rulecolor=\color{my-blue},
+    %xleftmargin=\parindent,
     breaklines=true
 }
 
