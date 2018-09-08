@@ -1,33 +1,42 @@
 \documentclass[11pt,a4paper,twoside,openright]{book}
 
+%%%% PACCHETTI PER LE IMMAGINI
 \usepackage[dvips]{graphicx}
 \graphicspath{ {./immagini/} }
 \usepackage{float} %per posizionare le immagini nel posto corretto con "H"
 
+%%%% PACCHETTI NON UTILIZZATI
 %\usepackage{tabularx}
 %\usepackage{subfigure}
 %\usepackage{afterpage}
 %\usepackage{amsmath,amssymb}            
-%\usepackage{rotating}  
+%\usepackage{rotating}
+
+%%%% ALTRI PACCHETTI
 \usepackage{fancyhdr}  
 \usepackage[scriptsize]{caption} 
 \usepackage{geometry}
 \usepackage{hyperref}
 
-% per codice shell
+%%%% PACCHETTI PER CODICE
 \usepackage{xcolor}
 \usepackage{listings}
+\renewcommand{\lstlistingname}{Codice}
 \definecolor{my-blue}{rgb}{0,0,0.3}
 \definecolor{my-red}{rgb}{0.3,0,0}
-\lstdefinestyle{my-bash}{
-  basicstyle=\ttfamily,
-  showstringspaces=false,
-  basicstyle=\color{my-blue}\ttfamily,
-  commentstyle=\color{my-red},
-  language=bash
+\lstdefinestyle{my-yml}{
+    showstringspaces=false,
+    basicstyle=\ttfamily\small\color{my-blue},
+    commentstyle=\color{my-red},
+    language=bash
 }
-\renewcommand{\lstlistingname}{Codice}
-
+\lstdefinestyle{my-bash}{
+    style=my-yml,
+    frame=L,
+    rulecolor=\color{my-blue},
+    xleftmargin=\parindent,
+    breaklines=true
+}
 
 % per sillabazione
 \hyphenation{a-gen-tiz-za-zio-ne}

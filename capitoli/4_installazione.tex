@@ -1,7 +1,6 @@
 \chapter{Installazione}
 \label{Installazione}
 \thispagestyle{empty}
-
 \lstset{style=my-bash}
 
 \section{Docker}
@@ -21,8 +20,7 @@ sudo apt-get install \
 \end{lstlisting}
 Aggiungere chiave GPG ufficiale di Docker.
 \begin{lstlisting}
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-    sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 \end{lstlisting}
 Verificare di possedere la chiave con il fingerprint\\
 \verb|9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88|\\
@@ -33,8 +31,7 @@ sudo apt-key fingerprint 0EBFCD88
 L'output dovrebbe essere:
 \begin{lstlisting}
 pub   4096R/0EBFCD88 2017-02-22
-Key fingerprint = 9DC8 5822 9FC7 DD38 854A \
-                    E2D8 8D81 803C 0EBF CD88
+Key fingerprint = 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
 uid     Docker Release (CE deb) <docker@docker.com>
 sub     4096R/F273FCD8 2017-02-22
 \end{lstlisting}
@@ -61,10 +58,7 @@ sudo docker run hello-world
 \subsection{Download e installazione}
 Download Docker Compose.
 \begin{lstlisting}
-sudo curl -L \
-    https://github.com/docker/compose/releases/download/\
-1.21.2/docker-compose-$(uname -s)-$(uname -m) \
-    -o /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 \end{lstlisting}
 Applicare i permessi di esecuzione al binario.
 \begin{lstlisting}
@@ -80,8 +74,7 @@ Creare una directory dal nome sharelatex e inserire \verb|docker-compose.yml|. O
 \begin{lstlisting}
 mkdir sharelatex
 cd sharelatex
-wget https://raw.githubusercontent.com/cristian-mercadante/\
-sharelatex/master/docker-compose.yml
+wget https://raw.githubusercontent.com/aimagelab/sharelatex/master/docker-compose.yml
 \end{lstlisting}
 Infine avviare i container di MongoDB, Redis e ShareLaTeX usando le impostazioni in \verb|docker-compose.yml|.
 \begin{lstlisting}
