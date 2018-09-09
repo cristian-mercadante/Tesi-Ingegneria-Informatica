@@ -4,10 +4,10 @@
 \lstset{style=my-bash}
 
 \section{Introduzione}
-L'installazione di ShareLaTeX avviene su una macchina virtuale all'interno di un server del laboratorio AImageLab. Il sistema è accessibile sia all'interno dell'ateneo (se collegati alla rete locale) che dall'esterno, grazie all'apertura della porta 443, all'indirizzo \verb|sharelatex.ing.unimore.it|. La macchina virtuale esegue il sistema operativo Ubuntu 18.04 LTS, il più recente alla data corrente. L'installazione e la configurazione sono avvenute seguendo i passi sotto riportati. L'attuale amminsistratore del sistema è il Dott. Federico Bolelli.
+L'installazione di ShareLaTeX avviene su una macchina virtuale all'interno di un server del laboratorio AImageLab. Il sistema è accessibile sia all'interno dell'ateneo (se collegati alla rete locale) che dall'esterno, grazie all'apertura della porta 443, all'indirizzo \url{sharelatex.ing.unimore.it}. La macchina virtuale esegue il sistema operativo Ubuntu 18.04 LTS, il più recente alla data corrente. L'installazione e la configurazione sono avvenute seguendo i passi sotto riportati. L'attuale amminsistratore del sistema è il Dott. Federico Bolelli.
 
 \section{Docker}
-Per il progetto ShareLaTeX si è optato per l'installazione di Docker CE, in quanto non risultano necessarie le funzionalità aggiuntive dell'Enterprise Edition, rivolte invece alle grandi imprese. L'installazione può avvenire in diversi modi, come indicato nella guida ufficiale disponibile al sito \verb|docs.docker.com/install/linux/docker-ce/ubuntu/|. Si è scelto di utilizzare il metodo raccomandato da Docker, ovvero tramite i loro repository.
+Per il progetto ShareLaTeX si è optato per l'installazione di Docker CE, in quanto non risultano necessarie le funzionalità aggiuntive dell'Enterprise Edition, rivolte invece alle grandi imprese. L'installazione può avvenire in diversi modi, come indicato nella guida ufficiale disponibile al sito \url{docs.docker.com/install/linux/docker-ce/ubuntu/}. Si è scelto di utilizzare il metodo raccomandato da Docker, ovvero tramite i loro repository.
 
 \subsection{Download}
 Aggiornare l'indice dei pacchetti di \verb|apt-get|.
@@ -76,7 +76,7 @@ docker-compose --version
 \end{lstlisting}
 
 \subsection{Configurazione}
-Creare una directory dal nome "sharelatex" e inserirvi \verb|docker-compose.yml|. Oltre a creare il container di ShareLaTeX, il file configura Redis e MongoDB. Inoltre fornisce una buona interfaccia per fornire impostazioni a ShareLaTeX.
+Creare una directory dal nome \enquote*{sharelatex} e inserirvi \verb|docker-compose.yml|. Oltre a creare il container di ShareLaTeX, il file configura Redis e MongoDB. Inoltre fornisce una buona interfaccia per fornire impostazioni a ShareLaTeX.
 \begin{lstlisting}
 mkdir sharelatex
 cd sharelatex
