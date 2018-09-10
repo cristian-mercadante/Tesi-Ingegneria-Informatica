@@ -46,7 +46,7 @@ Il daemon riceve richieste dal client per costruire, eseguire e distribuire cont
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{immagini/architecture.png}
+    \includegraphics[scale=0.3]{immagini/architecture.png}
     \caption{Esempio funzionamento Docker Engine}
     \label{fig:docker-architecture-example}
 \end{figure}
@@ -80,6 +80,9 @@ Docker Engine utilizza un'altra tecnologia chiamata cgroups, ovvero control grou
 
 \subsection{Union filesystems}
 Union filesystem, anche detto UnionFS, è una tecnologia che consente la sovrapposizione di filesystem separati, ovvero l'aggregazione di file e directory differenti e separate per formare un singolo filesystem. Docker Engine utilizza questa tecnologia per costruire container senza duplicare file o directory. Inoltre UnionFS permette la scrittura anche su file che appaiono read-only mediante il meccanismo copy-on-write. Ipotizziamo di voler avviare più container con la stessa immagine: in memoria sarebbero presenti tante copie dei filesystem quanti sono i container avviati. Con il meccanismo copy-on-write, il filesystem utilizzato è uno, mentre tutte le modifiche apportate da ogni container risultano salvate su layer copy-on-write di dimensioni contenute. Questo spiega anche come sia possibile, una volta scritto sul filesystem di un container, avviare un secondo container dalla stessa immagine senza le modifiche del primo.
+
+\subsection{Funzionamento su Windows e MacOS}
+Le tecnologie precedentemente elencate sono proprie del kernel Linux. Le versioni di Docker per Windows e MacOS necessitano di un livello aggiuntivo per avviare container. In Windows è avviata una leggera macchina virtuale Linux mediante Hyper-V, mentre MacOS utilizza HyperKit per lo stesso fine. Tutti i container avviati condivideranno la stessa macchina virtuale su Hyper-V per Windows o su HyperKit per MacOS.
 
 \section{Vantaggi rispetto alla virtualizzazione}
 Avviare un servizio in uno o più container piuttosto che all'interno di una macchina virtuale risulta conveniente in termini sia di risorse utilizzate, che di facilità di installazione. Infatti gruppi di container sulla stessa macchina condividono il kernel del sistema operativo dell'host, mentre più macchine virtuali necessitano ciascuna di un layer di sistema operativo guest ciascuna. I container sono quindi più leggeri, non richiedono l'installazione di un sistema operativo e utilizzano meno risorse (RAM, CPU, spazio d'archiviazione) grazie ai meccanismi precedentemente descritti. Inoltre l'installazione di un servizio all'interno di una macchina virtuale può richiedere sforzi nell'installazione di vari componenti. Questo problema è ovviato dai container, che possono essere avviati in un ambiente controllato, installati e gestiti facilmente (si pensi a Docker Compose). Emerge quindi la maggiore portabilità del container rispetto alla macchina virtuale.

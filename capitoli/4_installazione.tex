@@ -4,7 +4,7 @@
 \lstset{style=my-bash}
 
 \section{Introduzione}
-L'installazione di ShareLaTeX avviene su una macchina virtuale all'interno di un server del laboratorio AImageLab. Il sistema è accessibile sia all'interno dell'ateneo (se collegati alla rete locale) che dall'esterno, grazie all'apertura della porta 443, all'indirizzo \url{sharelatex.ing.unimore.it}. La macchina virtuale esegue il sistema operativo Ubuntu 18.04 LTS, il più recente alla data corrente. L'installazione e la configurazione sono avvenute seguendo i passi sotto riportati. L'attuale amminsistratore del sistema è il Dott. Federico Bolelli.
+L'installazione di ShareLaTeX avviene su una macchina virtuale all'interno di un server del laboratorio AImageLab. Tale macchina ha nome \verb|sharelatex| ed esegue il sistema operativo Ubuntu 18.04 LTS, il più recente alla data corrente. Il sistema è accessibile sia dall'interno dell'ateneo (se collegati alla rete locale), sia dall'esterno, grazie all'apertura della porta 443, all'indirizzo \url{sharelatex.ing.unimore.it}. L'installazione e la configurazione sono avvenute seguendo i passi sotto riportati. L'attuale amministratore del sistema è il Dott. Federico Bolelli.
 
 \section{Docker}
 Per il progetto ShareLaTeX si è optato per l'installazione di Docker CE, in quanto non risultano necessarie le funzionalità aggiuntive dell'Enterprise Edition, rivolte invece alle grandi imprese. L'installazione può avvenire in diversi modi, come indicato nella guida ufficiale disponibile al sito \url{docs.docker.com/install/linux/docker-ce/ubuntu/}. Si è scelto di utilizzare il metodo raccomandato da Docker, ovvero tramite i loro repository.
@@ -60,6 +60,12 @@ sudo docker run hello-world
 
 \section{Docker Compose}
 Docker Compose non è incluso all'interno del pacchetto Docker precedentemente installato. La sua installazione è necessaria ai fini del progetto per poter gestire al meglio i tre container che strutturano l'applicazione: ShareLaTeX, MongoDB e Redis.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.1]{immagini/docker_container_dependencies.png}
+    \caption{Esecuzione di Docker Compose e dipendenze fra container}
+    \label{fig:docker_compose_dipendenze}
+\end{figure}
 
 \subsection{Download e installazione}
 Download di Docker Compose. Col seguente comando verrà installata la versione 1.21.2. Per installare un'altra versione del software, eventualmente più aggiornata, è necessario modificare l'indirizzo inserendo la versione richiesta. Per informazioni sull'ultima versione disponibile, visitare \verb|github.com/docker/compose/releases|.
