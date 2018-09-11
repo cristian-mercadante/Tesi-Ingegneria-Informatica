@@ -1,9 +1,8 @@
 \chapter{Installazione}
 \label{Installazione}
 \thispagestyle{empty}
-\lstset{style=my-bash}
 
-\section{Introduzione}
+%\section{Introduzione}
 L'installazione di ShareLaTeX avviene su una macchina virtuale all'interno di un server del laboratorio AImageLab. Tale macchina ha nome \verb|sharelatex| ed esegue il sistema operativo Ubuntu 18.04 LTS, il più recente alla data corrente. Il sistema è accessibile sia dall'interno dell'ateneo (se collegati alla rete locale), sia dall'esterno, grazie all'apertura della porta 443, all'indirizzo \url{sharelatex.ing.unimore.it}. L'installazione e la configurazione sono avvenute seguendo i passi sotto riportati. L'attuale amministratore del sistema è il Dott. Federico Bolelli.
 
 \section{Docker}
@@ -82,7 +81,9 @@ docker-compose --version
 \end{lstlisting}
 
 \subsection{Configurazione}
-Creare una directory dal nome \enquote*{sharelatex} e inserirvi \verb|docker-compose.yml|. Oltre a creare il container di ShareLaTeX, il file configura Redis e MongoDB. Inoltre fornisce una buona interfaccia per fornire impostazioni a ShareLaTeX.
+Creare una directory dal nome \verb|sharelatex| e inserirvi \verb|docker-compose.yml|. Il template fornito dagli sviluppatori di ShareLaTeX per l'installazione tramite Docker è il seguente:
+\lstinputlisting[caption={Template di docker-compose.yml}, captionpos=b, label=code:docker-compose.yml]{script/docker-compose-ridotto.yml}
+Oltre a creare il container di ShareLaTeX, il file configura Redis e MongoDB. Inoltre fornisce una buona interfaccia per fornire impostazioni a ShareLaTeX\footnote{Si veda il capitolo \href{Configurazione}{Configurazione}.}.
 \begin{lstlisting}
 mkdir sharelatex
 cd sharelatex

@@ -78,7 +78,6 @@ Si noti che il ripristino/ricreazione di un qualunque container eliminerà tutte
 
 \subsection{Fasi preliminari}
 Modificare la variabile d'ambiente \verb|PATH|. Il modo più efficace e persistente consiste nell'aggiunta di \verb|PATH| fra le variabili d'ambiente di ShareLaTeX in \verb|docker-compose.yml|.
-\lstset{style=my-yml}
 \begin{lstlisting}
 environment:
     PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/texlive/2018/bin/x86_64-linux
@@ -95,7 +94,6 @@ sudo docker-compose up -d
 
 \subsection{Aggiornamento}
 È necessario avviare una bash all'interno del container ShareLaTeX. Docker permette di avviare comandi all'interno dei container mediante il comando \verb|exec|. Le opzioni \verb|-t| e \verb|-i| servono rispettivamente per creare una pseudo-TTY e per renderla interattiva con standard input.
-\lstset{style=my-bash}
 \begin{lstlisting}
 sudo docker exec -ti sharelatex bash
 \end{lstlisting}
