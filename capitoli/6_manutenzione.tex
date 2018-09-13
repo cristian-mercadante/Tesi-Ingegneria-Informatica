@@ -5,10 +5,17 @@
 In questa capitolo si spiega come provvedere a conservare lo stato dell'installazione locale di ShareLaTeX. È necessario pianificare le attività di ripristino dei dati del sistema in quanto l'avvio dei container con immagini aggiornate potrebbe impedire il corretto funzionamento del sistema o la perdita di dati e documenti finora creati. Si ricorda inoltre che un semplice riavvio dei container comporta il loro ripristino.
 
 \section{Backup e ripristino}
-Il \href{code:docker-compose.yml}{template} di \verb|docker-compose.yml| mostrato nel capitolo Installazione possiede già impostazioni riguardanti la persistenza dei dati dei tre container installati. Saranno aggiunte altre impostazioni per rendere più sicura la procedura di aggiornamento del sistema in futuro.
+Il \hyperref[code:docker-compose.yml]{template} di \verb|docker-compose.yml| mostrato nel capitolo \hyperref[Installazione]{Installazione} possiede già impostazioni riguardanti la persistenza dei dati dei tre container installati. Saranno aggiunte altre impostazioni per rendere più sicura la procedura di aggiornamento del sistema in futuro.
+
+\subsection{ShareLaTeX}
+I dati relativi a ShareLaTeX sono salvati all'interno del container in \verb|/var/lib/sharelatex| e il template di \verb|docker-compose.yml| crea di default un volume per la persistenza dei dati.
+\begin{lstlisting}
+volumes:
+    - ~/sharelatex_data:/var/lib/sharelatex
+\end{lstlisting}
 
 \subsection{MongoDB}
-MongoDB possiede due tool chiamati \verb|mongodump| e \verb|mongorestore| che saranno utilizzati per esportare ed importare il dataset in un formato sicuro per il backup. Per ulteriori informazioni visitare la documentazione ufficiale di MongoDB all'indirizzo \url{https://docs.mongodb.com/manual/tutorial/backup-and-restore-tools/}. Innanzitutto eseguire \verb|mongodump|.
+MongoDB possiede due tool chiamati \verb|mongodump| e \verb|mongorestore| che saranno utilizzati per esportare ed importare il dataset in un formato sicuro per il backup. Per ulteriori informazioni visitare la documentazione ufficiale di MongoDB all'indirizzo \url{docs.mongodb.com/manual/tutorial/backup-and-restore-tools/}. Innanzitutto eseguire \verb|mongodump|.
 \begin{lstlisting}
 sudo docker exec mongo mongodump
 \end{lstlisting}
@@ -18,7 +25,7 @@ volumes:
     - ~/mongo_data:/data/db
     - ~/mongodump_data:/dump
 \end{lstlisting}
-Riavviando il container l'output di \verb|mongodump| sarà accessibile nella home directory dell'host. Con \verb|mongorestore| sarà poi possibile ripristinare lo stato di MongoDB.
+Riavviando il container, l'output di \verb|mongodump| sarà accessibile nella home directory dell'host. Con \verb|mongorestore| sarà poi possibile ripristinare lo stato di MongoDB.
 \begin{lstlisting}
 sudo docker exec mongo mongorestore /dump
 \end{lstlisting}
@@ -30,17 +37,10 @@ volumes:
     - ~/redis_data:/data
 \end{lstlisting}
 
-\subsection{ShareLaTeX}
-I dati relativi a ShareLaTeX sono salvati all'interno del container in \verb|/var/lib/sharelatex| e il template di \verb|docker-compose.yml| crea di default un volume per la persistenza dei dati.
-\begin{lstlisting}
-volumes:
-    - ~/sharelatex_data:/var/lib/sharelatex
-\end{lstlisting}
-
 \section{Aggiornamento}
-Una volta eseguiti i passi per gestire l'operazione di backup e ripristino è necessario definire gli step per eseguire l'upgrade (o downgrade) dei container in modo sicuro, senza perdita di dati.
+Una volta eseguiti i passi per gestire l'operazione di backup e ripristino, è necessario definire gli step per eseguire l'upgrade (o downgrade) dei container in modo sicuro, senza perdita di dati.
 
-\subsection{Lougout degli utenti}
+\subsection{Logout degli utenti}
 È opportuno impedire agli utenti di utilizzare l'applicazione durante la fase di aggiornamento. Per far ciò l'amministratore deve fare login e accedere al pannello di gestione del sito presso \verb|sharelatex.ing.unimore.it/admin|.
 \begin{figure}[h]
     \centering
@@ -106,15 +106,15 @@ chmod +x update.sh
 \end{lstlisting}
 Lo script accetta un parametro che identifica una directory. Tale directory deve contenere un file \verb|docker-compose.yml| da utilizzare per avviare e configurare i container.
 \begin{lstlisting}
-# Utilizzo
 ./update.sh <dir>
+\end{lstlisting}
+Avendo inserito tale file in una directory chiamata \verb|sharelatex|, il comando sarà il seguente.
+\begin{lstlisting}
+./update.sh sharelatex
 \end{lstlisting}
 Lo script controlla innanzitutto il numero dei parametri: se non sufficiente, allora lo notifica all'utente. Esegue quindi un controllo sul parametro, per verificare che identifichi una directory traversabile. Segue eseguendo \verb|mongodump|, arrestando i container, eliminando i dati superflui, riavviando i container, per poi ripristinare i dati con \verb|mongorestore|. Mostra infine lo stato attuale dei container attivi e chiede all'utente se proseguire con l'installazione completa (o aggiornamento) di TeX Live.
 
-Si raccomanda di utilizzare questo script anche in caso di semplice riavvio dei container: dato che è stato impostato in \verb|docker-compose.yml| che l'immagine da utilizzare per la creazione dei container è quella con tag \enquote*{latest}, l'eventuale release di un'immagine aggiornata comporterebbe il suo download la sostituzione con l'immagine precedente, il che costituisce un vero e proprio aggiornamento.
+Si raccomanda di utilizzare questo script anche in caso di semplice riavvio dei container: dato che è stato impostato in \verb|docker-compose.yml| che l'immagine da utilizzare per la creazione dei container è quella con tag \enquote*{latest}, l'eventuale release di un'immagine aggiornata comporterebbe il suo download e la sostituzione con l'immagine precedente, il che costituisce un vero e proprio aggiornamento.
 
-Segue lo script \verb|update.sh|
+Segue lo script \verb|update.sh|.
 \lstinputlisting[caption={Script update.sh}, captionpos=b, style=my-style]{script/update-ridotto.sh}
-
-
-
