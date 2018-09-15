@@ -5,24 +5,32 @@
 \section{Primo avvio}
 Una volta eseguito Docker Compose, il sistema risulta avviato, funzionante e raggiungibile sulla porta 80, dall'host all'indirizzo \verb|localhost|, oppure da una macchina collegata alla rete locale tramite \verb|hostname|. Per quanto riguarda l'installazione fatta in ateneo, la macchine è raggiungibile all'indirizzo \verb|sharelatex.ing.unimore.it|, che verrà preso come esempio per i passi futuri.
 
-Per prima cosa è necessario registrare l'amministratore del sistema all'indirizzo\\\verb|sharelatex.ing.unimore.it/launchpad|. Una volta inseriti indirizzo e-mail e password dell'amministratore, verrà richiesto il primo login. Inserite le credenziali dell'amministratore, verrà mostrata il launchpad, il quale mostra lo stato dell'editor e delle websocket e dal quale è possibile inviare un'email di test a un indirizzo a scelta\footnote{Per usufruire di questa funzionalità è necessario configurare il servizio mail con \hyperref[SMTP]{SMTP}.}
+\subsection{Registrazione dell'amministratore}
 \begin{figure}[h]
     \begin{subfigure}{0.5\textwidth}
         \centering
-        \includegraphics[height=7cm]{immagini/launchpad_1.png}
+        \includegraphics[height=6cm]{immagini/launchpad_1.png}
         \caption{Launchpad}
         \label{fig:sharelatex_launchpad_1}
     \end{subfigure}
     \begin{subfigure}{0.5\textwidth}
         \centering
-        \includegraphics[height=7cm]{immagini/launchpad_2.png}
+        \includegraphics[height=6cm]{immagini/launchpad_2.png}
         \caption{Schermata di controllo}
         \label{fig:sharelatex_launchpad_2}
     \end{subfigure}
     \caption{Creazione utente amministratore}
     \label{fig:sharelatex_launchpad}
 \end{figure}
+\noindent Per registrare l'amministratore del sistema, visitare la pagina all'indirizzo\\\verb|sharelatex.ing.unimore.it/launchpad|. Una volta inseriti indirizzo e-mail e password dell'amministratore, verrà richiesto il primo login. Inserite le credenziali dell'amministratore, verrà mostrata il launchpad, il quale mostra lo stato dell'editor e delle websocket e dal quale è possibile inviare un'email di test a un indirizzo a scelta\footnote{Per usufruire di questa funzionalità è necessario configurare il servizio mail con \hyperref[SMTP]{SMTP}.}
 
+\subsection{Gestione utenti}
+L'amministratore può registrare utenti normali all'applicazione aggiungendo la loro email nella pagina "Manage Users". La piattaforma genera un link per impostare la password del nuovo account.
+
+Per eliminare un utente e tutti i progetti salvati sul suo account è invece necessario eseguire il seguente comando, indicando l'indirizzo mail dell'account da eliminare.
+\begin{lstlisting}
+sudo docker exec sharelatex /bin/bash -c "cd /var/www/sharelatex; grunt user:delete --email user@sharelatex.com"
+\end{lstlisting}
 
 \section{Interfaccia}
 \verb|docker-compose.yml| permette di impostare variabili d'ambiente all'interno dei container. ShareLaTeX è altamente configurabile sotto questo aspetto. Si elencano le variabili d'ambiente utilizzate per l'installazione in ateneo.
@@ -56,9 +64,9 @@ Per prima cosa è necessario registrare l'amministratore del sistema all'indiriz
         \end{multicols}
 \end{itemize}
 
-\section{Registrazione utenti e SMTP}
+\section{SMTP}
 \label{SMTP}
-L'amministratore può registrare utenti normali all'applicazione aggiungendo la loro email nella pagina "Manage Users". La piattaforma genera un link per impostare la password del nuovo account. Questo link deve essere in qualche modo consegnato al nuovo utente. Se il servizio email è configurato, allora questa fase sarà automatica. I parametri sono passati mediante variabili d'ambiente. Si raccomanda impostare \verb|SHARELATEX_SITE_URL| per generare link di iscrizione funzionanti. Si elencano le variabili d'ambiente utilizzate per l'installazione in ateneo.
+In fase di registrazione di un nuovo utente, come si è già detto, viene generato un link di iscrizione. Tale link deve essere in qualche modo consegnato al nuovo utente. Se il servizio email è configurato, allora questa fase sarà automatica. I parametri sono passati mediante variabili d'ambiente. Si raccomanda impostare \verb|SHARELATEX_SITE_URL| per generare link di iscrizione funzionanti. Si elencano le variabili d'ambiente utilizzate per l'installazione in ateneo.
 \begin{itemize}
     \item \verb|SHARELATEX_EMAIL_FROM_ADDRESS|: indirizzo del mittente del messaggio.
     \item \verb|SHARELATEX_EMAIL_SMTP_HOST|: host del servizio SMTP.

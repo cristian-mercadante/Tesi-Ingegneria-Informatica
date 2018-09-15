@@ -35,7 +35,10 @@ Redis contiene dati a breve termine, ma può essere comunque importante eseguire
 \begin{lstlisting}
 volumes:
     - ~/redis_data:/data
-\end{lstlisting}
+\end{lstlisting} 
+
+\subsection{Ridondanza della memoria del sistema}
+Il server su cui è stata installata la macchina \verb|sharelatex| possiede storage con RAID. Guasti sulla macchina virtuale non comprometteranno lo stato del servizio, dei profili utente e dei progetti, in quanto la ridondanza introdotta permette il ripristino della macchina in caso di failure.
 
 \section{Aggiornamento}
 Una volta eseguiti i passi per gestire l'operazione di backup e ripristino, è necessario definire gli step per eseguire l'upgrade (o downgrade) dei container in modo sicuro, senza perdita di dati.
@@ -51,7 +54,7 @@ Una volta eseguiti i passi per gestire l'operazione di backup e ripristino, è n
 \begin{enumerate}
     \item Accedere alla scheda \enquote*{Close Editor}.
     \item Cliccare sul bottone \enquote*{Close Editor}: impedisce agli utenti di caricare l'editor di progetto.
-    \item Cliccare sul bottone \enquote*{Disconnect all users}: chiunque sia connessio all'editor verrà rinviato ad una pagina di avviso manutenzione.
+    \item Cliccare sul bottone \enquote*{Disconnect all users}: chiunque sia connesso all'editor verrà rinviato ad una pagina di avviso manutenzione.
 \end{enumerate}
 L'unico modo per riavviare l'editor consiste nel riavvio dei container.
 
