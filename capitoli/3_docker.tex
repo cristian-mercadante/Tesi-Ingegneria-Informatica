@@ -5,21 +5,17 @@
 Docker è una piattaforma per sviluppare, spedire e avviare applicazioni usando la tecnologia dei container. Il progresso dell'industria tecnologica procede ad un ritmo elevatissimo e sempre più aziende hanno bisogno di strumenti affidabili e facilmente scalabili a seconda delle esigenze. La piattaforma Docker è lo strumento all'avanguardia che permette la consegna ed installazione di servizi in semplicità e sicurezza, mediante componenti leggeri e standard, assai portabili e aggiornabili, chiamati container. Questi non solo sono utilizzati per sviluppare nuovi servizi e micro-servizi, ma anche per eseguire applicazioni esistenti, preparandole ad una futura modernizzazione. Infatti i vantaggi della piattaforma hanno convinto l'industria, che oggi confida sempre più su questa tecnologia, costruendo piattaforme di container.
 
 \section{Versioni}
-Docker è un software disponibile per diverse sistemi operativi fra cui sistemi Linux (Ubuntu, Fedora, Debian, CentOS), Windows, Mac, ma anche in cloud (Amazon Web Services, Microsoft Azure). È disponibile in due versioni:
+Docker è un software disponibile per diversi sistemi operativi fra cui sistemi Linux (Ubuntu, Fedora, Debian, CentOS), Windows, Mac, ma anche in cloud (Amazon Web Services, Microsoft Azure). È disponibile in due versioni:
 \begin{itemize}
     \item Community Edition (CE): gratuita, ideale per sviluppatori singoli e per piccoli team. Possiede le funzionalità di base della piattaforma.
     \item Enterprise Edition (EE): studiata per sviluppo aziendale e per team che sviluppano, spediscono ed eseguono applicazioni essenziali per l'impresa.
 \end{itemize}
 
 \section{Architettura, componenti e funzionamento}
-Docker utilizza funzionalità di virtualizzazione del kernel Linux per avviare servizi e applicazioni in un ambiente isolato, protetto e sicuro.
-
-In seguito si descriveranno i componenti base di Docker e di come interagiscano fra loro.
+Docker utilizza funzionalità di virtualizzazione del kernel Linux per avviare servizi e applicazioni in un ambiente isolato, protetto e sicuro. In seguito si descriveranno i componenti base di Docker e di come interagiscano fra loro.
 
 \subsection{Immagini}
-Un'immagine è un template con istruzioni per la creazione di container. Le immagini descrivono anche i componenti e i programmi all'interno del container e possono includere anche altre immagini. Ad esempio, è possibile indicare che sull'immagine "Ubuntu" sia installato il web server Apache ed altre applicazioni con le relative impostazioni.
-
-È possibile creare le proprie immagini, ma anche utilizzarne altre disponibili su \hyperref[docker-hub]{Docker Hub}. Per creare un immagine è necessario creare un \emph{Dockerfile} che indichi gli step per la creazione e l'avvio dell'immagine. Ogni step costituisce un layer dell'immagine: la ricreazione dell'immagine a fronte di modifiche comporterà la sola sostituzione dei layer modificati. L'operazione risulta quindi assai conveniente, leggera e veloce.
+Un'immagine è un template con istruzioni per la creazione di container. Le immagini descrivono anche i componenti e i programmi all'interno del container e possono includere anche altre immagini. Ad esempio, è possibile indicare che sull'immagine "Ubuntu" sia installato il web server Apache ed altre applicazioni con le relative impostazioni. È possibile creare le proprie immagini, ma anche utilizzarne altre disponibili su \hyperref[docker-hub]{Docker Hub}. Per creare un immagine è necessario creare un \emph{Dockerfile} che indichi gli step per la creazione e l'avvio dell'immagine. Ogni step costituisce un layer dell'immagine: la ricreazione dell'immagine a fronte di modifiche comporterà la sola sostituzione dei layer modificati. L'operazione risulta quindi assai conveniente, leggera e veloce.
 
 \subsection{Container}
 Un container è un'istanza eseguibile di un'immagine. Ogni container possiede i propri processi, la propria memoria, i propri dispositivi e stack di rete. I container isolano quindi il proprio ambiente da quello esterno, assicurandosi che i propri applicativi funzionino sempre e in modo sicuro, indipendentemente dalle specifiche dell'host. È possibile connettere un container alla rete oppure ad altri container, assegnargli spazio di archiviazione e utilizzare lo stato attuale per creare nuove immagini. Pertanto un container è definito dalla sua immagine e dalla sua configurazione di avvio. Al riavvio di un container, ogni modifica apportata al suo stato o ai suoi dati verrà persa. È possibile introdurre la persistenza dei dati utilizzando la tecnologia dei \emph{volumi}. Questi sono completamente gestiti da Docker, sono facili da eseguire o migrare e sono utilizzabili in sicurezza da più container. La creazione di un volume consiste nella copia di una directory dal filesystem del container verso il filesystem dell'host. Docker gestisce direttamente il contenuto di queste directory. Ad esempio, a seguito del riavvio di un container, Docker carica i dati salvati sull'host all'interno della directory specificata, ripristinando il suo stato prima dello spegnimento.
@@ -57,7 +53,7 @@ Docker Compose è uno strumento per definire ed avviare servizi multi-container 
 
 Segue un estratto di \verb|docker-compose.yml| utilizzato per il progetto:
 \lstinputlisting[lastline=17, caption={Esempio di docker-compose.yml}, captionpos=b]{script/docker-compose.yml}
-È indicata la versione del formato del file, seguita dai servizi da gestire. Per ShareLaTeX si impone con \verb|restart: always| che in caso di errore nel container, questo si riavvierà sempre. A seguire si specifica il nome dell'immagine di riferimento, il nome del container che verrà creato, le dipendenze, la priorità del container sugli altri, il numero di porta, i collegamenti con altri container e infine i volumi da montare sull'host fisico per la persistenza dei file.
+È indicata la versione del formato del file, seguita dai servizi da gestire. Per ShareLaTeX si impone con \verb|restart: always| che in caso di errore nel container, questo si riavvierà sempre. A seguire si specifica il nome dell'immagine di riferimento, il nome del container che verrà creato, le dipendenze, la priorità del container sugli altri, il numero di porta, i collegamenti con altri container e infine i volumi da montare sull'host per la persistenza dei dati.
  
 \section{Tecnologia sottostante}
 Docker è scritto in linguaggio GO ed utilizza diverse funzionalità del kernel Linux per eseguire container in ambienti controllati, in modo leggero e veloce. Tali funzionalità sono raccolte all'interno della libreria \emph{libcontainer}, che permette a Docker Engine di gestire il ciclo di vita dei container.

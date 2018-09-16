@@ -5,7 +5,7 @@
 In questa capitolo si spiega come provvedere a conservare lo stato dell'installazione locale di ShareLaTeX. È necessario pianificare le attività di ripristino dei dati del sistema in quanto l'avvio dei container con immagini aggiornate potrebbe impedire il corretto funzionamento del sistema o la perdita di dati e documenti finora creati. Si ricorda inoltre che un semplice riavvio dei container comporta il loro ripristino.
 
 \section{Backup e ripristino}
-Il \hyperref[code:docker-compose.yml]{template} di \verb|docker-compose.yml| mostrato nel capitolo \hyperref[Installazione]{Installazione} possiede già impostazioni riguardanti la persistenza dei dati dei tre container installati. Saranno aggiunte altre impostazioni per rendere più sicura la procedura di aggiornamento del sistema in futuro.
+Il \hyperref[code:docker-compose.yml]{template} di \verb|docker-compose.yml| mostrato nel capitolo \hyperref[Installazione]{\enquote*{Installazione}} possiede già impostazioni riguardanti la persistenza dei dati dei tre container installati. Saranno aggiunte altre impostazioni per rendere più sicura la procedura di aggiornamento del sistema in futuro.
 
 \subsection{ShareLaTeX}
 I dati relativi a ShareLaTeX sono salvati all'interno del container in \verb|/var/lib/sharelatex| e il template di \verb|docker-compose.yml| crea di default un volume per la persistenza dei dati.
@@ -31,7 +31,7 @@ sudo docker exec mongo mongorestore /dump
 \end{lstlisting}
 
 \subsection{Redis}
-Redis contiene dati a breve termine, ma può essere comunque importante eseguire un backup dei dati. Il template di \verb|docker-compose.yml| crea di default un volume per la persistenza dei dati. Conterrà un unico file nominato \verb|dump.rdb|.
+Redis è utilizzato come meccanismo di caching, per cui contiene dati a breve termine, ma può essere comunque importante eseguire un backup dei dati. Il template di \verb|docker-compose.yml| crea di default un volume per la persistenza dei dati. Conterrà un unico file nominato \verb|dump.rdb|.
 \begin{lstlisting}
 volumes:
     - ~/redis_data:/data
@@ -96,13 +96,13 @@ sudo docker-compose up -d
 \end{lstlisting}
 
 \subsection{Ripristino con mongorestore}
-Ci si presenterà una nuova installazione dell'applicazione. Per ripristinare i dati precedenti occorre eseguire \verb|mongorestore|.
+Si presenterà una nuova installazione dell'applicazione. Per ripristinare i dati precedenti occorre eseguire \verb|mongorestore|.
 \begin{lstlisting}
 sudo docker exec mongo mongorestore /dump
 \end{lstlisting}
 
-\section{Automatizzazione degli aggiornamenti: update.sh}
-Per automatizzare il processo di aggiornamento dei container è stato prodotto lo script \verb|update.sh|. Questo script esegue il procedimento precedentemente descritto passo per passo, mostrando all'utente lo stato di ogni fase. Per eseguire lo script è necessario scaricarlo e ottenere i permessi di esecuzione.
+\section{Agevolazione degli aggiornamenti: update.sh}
+Per agevolare il processo di aggiornamento dei container è stato prodotto lo script \verb|update.sh|. Questo script esegue il procedimento precedentemente descritto passo per passo, mostrando all'utente lo stato di ogni fase. Per eseguire lo script è necessario scaricarlo e ottenere i permessi di esecuzione.
 \begin{lstlisting}
 wget https://raw.githubusercontent.com/aimagelab/sharelatex/master/update.sh
 chmod +x update.sh

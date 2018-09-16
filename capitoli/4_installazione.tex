@@ -38,7 +38,7 @@ Key fingerprint = 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
 uid     Docker Release (CE deb) <docker@docker.com>
 sub     4096R/F273FCD8 2017-02-22
 \end{lstlisting}
-Monstare il repository stabile. Il server ha un processore con architettura x64, pertanto sarà necessario imppostare \verb|arch=amd64| come segue.
+Montare il repository stabile. Il server ha un processore con architettura x64, pertanto sarà necessario imppostare \verb|arch=amd64| come segue.
 \begin{lstlisting}
 sudo add-apt-repository \
 "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
@@ -67,7 +67,7 @@ Docker Compose non è incluso all'interno di Docker CE. La sua installazione è 
 \end{figure}
 
 \subsection{Download e installazione}
-Col seguente comando scaricata la versione 1.21.2 di Docker Compose. Per installare un'altra versione del software, eventualmente più aggiornata, è necessario modificare l'indirizzo inserendo la versione richiesta. Per informazioni sull'ultima versione disponibile, visitare \verb|github.com/docker/compose/releases|.
+Col seguente comando sarà scaricata la versione 1.21.2 di Docker Compose. Per installare un'altra versione del software, eventualmente più aggiornata, è necessario modificare l'URL inserendo la versione richiesta. Per informazioni sull'ultima versione disponibile, visitare \verb|github.com/docker/compose/releases|.
 \begin{lstlisting}
 sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 \end{lstlisting}
@@ -107,7 +107,7 @@ Modificare la variabile d'ambiente \verb|PATH|. Il modo più efficace e persiste
 environment:
     PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/texlive/2018/bin/x86_64-linux
 \end{lstlisting}
-Si noti che il ripristino/ricreazione di un qualunque container eliminerà tutte le modifiche ad esso apportate. Ciò significa che un eventuale riavvio del container ShareLaTeX dopo l'installazione completa di TeX Live ripristinerebbe lo stato dell'installazione iniziale. Questo può succedere, ad esempio, a seguito di modifiche al file \verb|docker-compose.yml| e all'esecuzione di \verb|sudo docker-compose up -d|. Pertanto è opportuno montare un volume esterno in corrispondenza della directory /usr/local/texlive/2018 per rendere persistenti i file dell'aggiornamento.
+Si ricorda che il ripristino/ricreazione di un qualunque container eliminerà tutte le modifiche ad esso apportate. Ciò significa che un eventuale riavvio del container ShareLaTeX dopo l'installazione completa di TeX Live ripristinerebbe lo stato dell'installazione iniziale. Questo può succedere, ad esempio, a seguito di modifiche al file \verb|docker-compose.yml| e all'esecuzione di \verb|sudo docker-compose up -d|. Pertanto è opportuno montare un volume esterno in corrispondenza della directory \verb|/usr/local/texlive/2018| per rendere persistenti i file dell'aggiornamento.
 \begin{lstlisting}
 volumes:
     - ~/sharelatex_texlive:/usr/local/texlive/2018
@@ -145,4 +145,4 @@ L'installazione completa di TeX Live sarà avviata tramite il comando \verb|exec
 \begin{lstlisting}
 sudo docker exec sharelatex tlmgr install scheme-full
 \end{lstlisting}
-Attendere fino al termine dell'installazione. Eventuali interruzioni non comprometteranno l'installazione, che riprenderà da dove era stata interrotta.
+Attendere fino al termine dell'installazione. Eventuali interruzioni non comprometteranno l'installazione, che potrà ricominciare da dove era stata interrotta rilanciando il comando precedente.
