@@ -6,14 +6,14 @@
 L'installazione di ShareLaTeX è stata fatta su una macchina virtuale ospitata da un server del laboratorio AImageLab. Tale macchina ha nome \verb|sharelatex| ed esegue il sistema operativo Ubuntu 18.04 LTS, il più recente alla data corrente. Il sistema è accessibile sia dall'interno dell'ateneo (se collegati alla rete locale), sia dall'esterno, grazie all'apertura della porta 443, all'indirizzo \url{sharelatex.ing.unimore.it}. L'installazione e la configurazione sono avvenute seguendo i passi sotto riportati. L'attuale amministratore del sistema è il Dott. Federico Bolelli.
 
 \section{Docker}
-Per il progetto ShareLaTeX si è optato per l'installazione di Docker CE, in quanto non risultano necessarie le funzionalità aggiuntive dell'Enterprise Edition, rivolte invece alle grandi imprese. L'installazione può avvenire in diversi modi, come indicato nella guida ufficiale disponibile al sito \url{docs.docker.com/install/linux/docker-ce/ubuntu/}. Si è scelto di utilizzare il metodo raccomandato da Docker, ovvero tramite i loro repository.
+Per il progetto ShareLaTeX si è optato per l'installazione di Docker CE, in quanto non risultano necessarie le funzionalità aggiuntive dell'Enterprise Edition, rivolte invece alle grandi imprese. L'installazione può avvenire in diversi modi, come indicato nella guida ufficiale \cite{docker_install}. Si è scelto di utilizzare il metodo raccomandato da Docker, ovvero tramite i loro repository.
 
 \subsection{Download}
-Aggiornare l'indice dei pacchetti di \verb|apt-get|.
+Aggiornare l'indice dei pacchetti di \verb|apt-get|:
 \begin{lstlisting}
 sudo apt-get update
 \end{lstlisting}
-Installare i pacchetti necessari per permettere a \verb|apt-get| di utilizzare un repository su HTTPS.
+Installare i pacchetti necessari per permettere a \verb|apt-get| di utilizzare un repository su HTTPS:
 \begin{lstlisting}
 sudo apt-get install \ 
     apt-transport-https \
@@ -21,24 +21,24 @@ sudo apt-get install \
     curl \
     software-properties-common
 \end{lstlisting}
-Aggiungere la chiave GPG ufficiale di Docker.
+Aggiungere la chiave GPG ufficiale di Docker:
 \begin{lstlisting}
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 \end{lstlisting}
-Verificare di possedere la chiave con il fingerprint\\
+Verificare di possedere la chiave con la fingerprint\\
 \verb|9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88|\\
-cercando gli ultimi 8 caratteri della fingerprint.
+confrontando gli ultimi 4 byte della fingerprint:
 \begin{lstlisting}
 sudo apt-key fingerprint 0EBFCD88
 \end{lstlisting}
-L'output dovrebbe essere simile al seguente.
+che dovrebbe produrre un output simile al seguente:
 \begin{lstlisting}
 pub   4096R/0EBFCD88 2017-02-22
 Key fingerprint = 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
 uid     Docker Release (CE deb) <docker@docker.com>
 sub     4096R/F273FCD8 2017-02-22
 \end{lstlisting}
-Montare il repository stabile. Il server ha un processore con architettura x64, pertanto sarà necessario imppostare \verb|arch=amd64| come segue.
+Montare il repository specificando l'architettura (in questo caso x64):
 \begin{lstlisting}
 sudo add-apt-repository \
 "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
@@ -47,35 +47,35 @@ stable"
 \end{lstlisting}
 
 \subsection{Installazione}
-Installare l'ultima versione di Docker CE.
+Installare l'ultima versione di Docker CE:
 \begin{lstlisting}
 sudo apt-get install -y docker-ce
 \end{lstlisting}
-Verificare che Docker CE sia installato correttamente avviando l'immagine \verb|hello-world|.
+Verificare che Docker CE sia installato correttamente avviando l'immagine \verb|hello-world|:
 \begin{lstlisting}
 sudo docker run hello-world
 \end{lstlisting}
 
 
 \section{Docker Compose}
-Docker Compose non è incluso all'interno di Docker CE. La sua installazione è necessaria ai fini del progetto per poter gestire al meglio i tre container che strutturano l'applicazione: ShareLaTeX, MongoDB e Redis.
+Docker Compose non è incluso all'interno di Docker CE. La sua installazione è necessaria ai fini del progetto per poter gestire i tre container che strutturano l'applicazione: ShareLaTeX, MongoDB e Redis.
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.1]{immagini/docker_container_dependencies.png}
+    \includegraphics[width=\textwidth]{immagini/docker_container_dependencies.png}
     \caption{Esecuzione di Docker Compose e dipendenze fra container}
     \label{fig:docker_compose_dipendenze}
 \end{figure}
 
 \subsection{Download e installazione}
-Col seguente comando sarà scaricata la versione 1.21.2 di Docker Compose. Per installare un'altra versione del software, eventualmente più aggiornata, è necessario modificare l'URL inserendo la versione richiesta. Per informazioni sull'ultima versione disponibile, visitare \verb|github.com/docker/compose/releases|.
+Con il comando che segue è possibile scaricare la versione 1.21.2 di Docker Compose. Per installare un'altra versione del software, eventualmente più aggiornata, è necessario modificare l'URL inserendo la versione richiesta. Per informazioni sull'ultima versione disponibile, visitare \verb|github.com/docker/compose/releases|.
 \begin{lstlisting}
 sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 \end{lstlisting}
-Applicare i permessi di esecuzione al file binario.
+Occorre quindi applicare i permessi di esecuzione al file binario:
 \begin{lstlisting}
 sudo chmod +x /usr/local/bin/docker-compose
 \end{lstlisting}
-Testare la corretta installazione.
+e testare l'installazione:
 \begin{lstlisting}
 docker-compose --version
 \end{lstlisting}
@@ -93,55 +93,55 @@ Infine avviare i container di ShareLaTeX, MongoDB e Redis usando le impostazioni
 \begin{lstlisting}
 sudo docker-compose up -d
 \end{lstlisting}
-Per visualizzare i container attualmente attivi, eseguire seguente comando.
+Per visualizzare i container attualmente attivi, eseguire il comando:
 \begin{lstlisting}
 sudo docker ps
 \end{lstlisting}
 
 \section{TeX Live}
-TeX Live è un distribuzione del sistema \TeX ~per installare, gestire e aggiornare pacchetti utilizzati per scrivere in \LaTeX. L'installazione completa dei pacchetti di TeX Live è essenziale per poter utilizzare qualsiasi pacchetto all'interno dei propri documenti. La totalità dei pacchetti occupa molta memoria sul disco (circa 7 GB), pertanto l'immagine di ShareLaTeX in Docker Hub presenta solo un'installazione parziale di TeX Live. La procedura di installazione richiederà molto tempo (circa 2 ore). L'immagine utilizzata per il container ShareLaTeX possiede la versione 2017 di TeX Live, il che genera un conflitto all'avvio dell'installazione di tutti i pacchetti, perché necessaria la versione 2018. Per risolvere questo problema si è seguita la guida di aggiornamento fornita da TeX Live all'indirizzo \url{www.tug.org/texlive/upgrade.html}.
+TeX Live è un distribuzione del sistema \TeX ~per installare, gestire e aggiornare pacchetti utilizzati per scrivere in \LaTeX. L'installazione completa dei pacchetti di TeX Live è essenziale per poter utilizzare qualsiasi pacchetto all'interno dei propri documenti. La totalità dei pacchetti occupa molta memoria sul disco (circa 7 GB), pertanto l'immagine di ShareLaTeX in Docker Hub presenta solo un'installazione parziale di TeX Live. La procedura di installazione richiederà molto tempo (circa 2 ore). L'immagine utilizzata per il container ShareLaTeX contiene la versione 2017 di TeX Live. Per l'installazione completa dei pacchetti di TeX Live 2018 e la risoluzione dei conflitti dei pacchetti preinstallati versione 2017, si è seguita la guida di aggiornamento fornita da TeX Live \cite{texlive_upgrade}.
 
 \subsection{Fasi preliminari}
-Modificare la variabile d'ambiente \verb|PATH|. Il modo più efficace e persistente consiste nell'aggiunta di \verb|PATH| fra le variabili d'ambiente di ShareLaTeX in \verb|docker-compose.yml|.
+Modificare la variabile d'ambiente \verb|PATH|. Il modo più efficace e persistente consiste nell'aggiunta di \verb|PATH| fra le variabili d'ambiente di ShareLaTeX in \verb|docker-compose.yml|:
 \begin{lstlisting}
 environment:
     PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/texlive/2018/bin/x86_64-linux
 \end{lstlisting}
-Si ricorda che il ripristino/ricreazione di un qualunque container eliminerà tutte le modifiche ad esso apportate. Ciò significa che un eventuale riavvio del container ShareLaTeX dopo l'installazione completa di TeX Live ripristinerebbe lo stato dell'installazione iniziale. Questo può succedere, ad esempio, a seguito di modifiche al file \verb|docker-compose.yml| e all'esecuzione di \verb|sudo docker-compose up -d|. Pertanto è opportuno montare un volume esterno in corrispondenza della directory \verb|/usr/local/texlive/2018| per rendere persistenti i file dell'aggiornamento.
+Si ricorda che il ripristino/ricreazione di un qualunque container eliminerà tutte le modifiche ad esso apportate. Ciò significa che un eventuale riavvio del container ShareLaTeX dopo l'installazione completa di TeX Live ripristinerebbe lo stato dell'installazione iniziale. Questo può succedere, ad esempio, a seguito di modifiche al file \verb|docker-compose.yml| e all'esecuzione di \verb|sudo docker-compose up -d|. Pertanto è opportuno montare un volume esterno in corrispondenza della directory \verb|/usr/local/texlive/2018| per rendere persistenti i file dell'aggiornamento:
 \begin{lstlisting}
 volumes:
     - ~/sharelatex_texlive:/usr/local/texlive/2018
 \end{lstlisting}
-Salvare le modifiche e riavviare i container.
+Salvare quindi le modifiche e riavviare i container:
 \begin{lstlisting}
 sudo docker-compose up -d
 \end{lstlisting}
 
 \subsection{Aggiornamento}
-È necessario avviare una bash all'interno del container ShareLaTeX. Docker permette di avviare comandi all'interno dei container mediante il comando \verb|exec|. Le opzioni \verb|-t| e \verb|-i| servono rispettivamente per creare una pseudo-TTY e per renderla interattiva con standard input.
+Per eseguire l'aggiornamento è necessario avviare una bash all'interno del container ShareLaTeX. Docker permette di avviare comandi all'interno dei container mediante il comando \verb|exec|. Le opzioni \verb|-t| e \verb|-i| servono rispettivamente per creare una pseudo-TTY e per renderla interattiva:
 \begin{lstlisting}
 sudo docker exec -ti sharelatex bash
 \end{lstlisting}
-Una volta all'interno del container, visitare il percorso \verb|/usr/local/texlive| e copiare il contenuto della directory \verb|2017| in \verb|2018| (generata dopo aver montato il volume e riavviato il container). Entrare successivamente nella directory \verb|2018|.
+Una volta all'interno del container, visitare il percorso \verb|/usr/local/texlive| e copiare il contenuto della directory \verb|2017| in \verb|2018|, generata dopo aver montato il volume e riavviato il container:
 \begin{lstlisting}
 cd /usr/local/texlive
 cp -a 2017/* 2018
 cd 2018
 \end{lstlisting}
-Scaricare ed eseguire lo script d'aggiornamento \verb|update-tlmgr-latest.sh|.
+Scaricare ed eseguire lo script d'aggiornamento \verb|update-tlmgr-latest.sh|:
 \begin{lstlisting}
 wget http://ctan.mirror.garr.it/mirrors/CTAN/systems/texlive/tlnet/update-tlmgr-latest.sh
 sh update-tlmgr-latest.sh -- --upgrade
 tlmgr update --self --all
 \end{lstlisting}
-Ripristinare la cache lualatex/fontspec.
+Ripristinare la cache lualatex/fontspec:
 \begin{lstlisting}
 luaotfload-tool -fu
 \end{lstlisting}
 Infine uscire dal container con \verb|exit|.
 
 \subsection{Installazione}
-L'installazione completa di TeX Live sarà avviata tramite il comando \verb|exec| dall'esterno. L'operazione richiederà molto tempo.
+L'installazione completa di TeX Live sarà avviata tramite il comando \verb|exec| dall'esterno (l'operazione richiederà molto tempo):
 \begin{lstlisting}
 sudo docker exec sharelatex tlmgr install scheme-full
 \end{lstlisting}

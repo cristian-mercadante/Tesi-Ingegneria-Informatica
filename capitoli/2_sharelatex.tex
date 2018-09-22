@@ -2,7 +2,7 @@
 \label{ShareLaTeX}
 \thispagestyle{empty}
 
-ShareLaTeX è uno strumento assai diffuso all'interno della comunità scientifica e accademica. È un editor di documenti in linguaggio \LaTeX ~che presenta numerose funzionalità che lo caratterizzano rispetto ai normali editor.
+ShareLaTeX è uno strumento assai diffuso all'interno della comunità scientifica e accademica. È un editor di documenti in linguaggio \LaTeX ~che presenta numerose funzionalità che lo distinguono dai normali editor.
 
 \section{Funzionalità}
 
@@ -12,15 +12,15 @@ ShareLaTeX è un'applicazione web che consente agli utenti di creare, importare,
 ShareLaTeX offre un'interfaccia utente semplice e immediata. Ogni utente iscritto possiede la sua homepage con i progetti creati, dalla quale può decidere se aprire un progetto esistente o crearne uno nuovo.
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.7]{immagini/homepage.PNG}
+    \includegraphics[width=\textwidth]{immagini/homepage.PNG}
     \caption{Homepage di ShareLaTeX}
     \label{fig:sharelatex_homepage}
 \end{figure}
 
-L'interfaccia dell'editor è anch'essa semplice e divisa in tre parti:
+L'interfaccia dell'editor è divisa in tre parti:
 \begin{itemize}
     \item Una colonna di navigazione fra i file del progetto, dalla quale si possono non solo creare nuovi file e cartelle, ma anche importarli da locale o dal web.
-    \item La finestra di editor vera e propria, dove l'utente scrive testo e comandi \LaTeX, con evidenziazione della sintassi e consigli sul completamento dei comandi.
+    \item La finestra di editor vera e propria, dove l'utente scrive testo e comandi \LaTeX, con evidenziazione della sintassi e autocompletamento dei comandi.
     \item La finestra di anteprima del documento, che presenta l'esito della compilazione.
 \end{itemize}
 \begin{figure}[h]
@@ -38,33 +38,33 @@ Il pulsante \enquote*{Menu} in alto a sinistra mostra una colonna aggiuntiva dal
     \item Selezionare il documento principale da cui iniziale la compilazione.
     \item Indicare il linguaggio di scrittura per la correzione dello spelling.
     \item Attivare o disattivare l'auto-completamento del testo, l'auto-chiusura delle parentesi e il controllo del codice.
-    \item Selezionare il tema ella schermata dell'editor e la dimensione del font.
-    \item Mostrare le scorciatoie da tastiera dell'editor.
+    \item Selezionare il tema della schermata dell'editor e la dimensione del font.
+    \item Mostrare/modificare le scorciatoie da tastiera dell'editor.
 \end{itemize}
 
 \section{Database}
 ShareLaTeX necessita di due DBMS per funzionare: MongoDB e Redis. In seguito si presentano tali servizi, mettendo in luce i loro punti di forza.
 
 \subsection{MongoDB}
-MongoDB è un DBMS non relazionale, anche detto NoSQL. È un progetto open source con licenza GNU AGPL v3.0. Anziché essere basato su tabelle e dipendenze fra queste, MongoDB utilizza il modello a documenti. Questi consentono di strutturare i dati in maniera efficiente da processare per le macchine, ma allo stesso tempo naturale e facile per l'essere umano da leggere. DBMS relazionali, specialmente se di grandi dimensioni, possono risultare difficili da comprendere, da aggiornare, inefficienti e spesso gli sviluppatori devono modellare le proprie applicazioni sulle esigenze del DBMS. MongoDB invece si adatta alle esigenze di chi sviluppa, concedendo loro di memorizzare dati in maniera più libera, senza la preoccupazione che un piccolo cambiamento possa compromettere lo stato della base di dati. Inoltre MongoDB può nativamente coordinare molteplici server per immagazzinare dati. È quindi definito \enquote*{distributed database}. È tollerante ai guasti, qualora siano stati previsti server secondari ridondanti. È scalabile, poichè può immagazzinare dati in più server per bilanciare il carico. Infine è possibile migrare facilmente i database, in modo da conservare i dati vicino agli utenti per garantire accessi veloci.
+MongoDB \cite{mongodb} è un DBMS non relazionale, anche detto NoSQL. È un progetto open source con licenza GNU AGPL v3.0. Anziché essere basato su tabelle e dipendenze fra queste, MongoDB utilizza il modello a documenti. Questi consentono di strutturare i dati in maniera efficiente da processare per le macchine, ma allo stesso tempo naturale e facile per l'essere umano da leggere. DBMS relazionali, specialmente se di grandi dimensioni, possono risultare difficili da comprendere, da aggiornare, inefficienti e spesso gli sviluppatori devono modellare le proprie applicazioni sulle esigenze del DBMS. MongoDB invece si adatta alle esigenze di chi sviluppa, concedendo loro di memorizzare dati in maniera più libera, senza la preoccupazione che un piccolo cambiamento possa compromettere lo stato della base di dati. Inoltre MongoDB può nativamente coordinare molteplici server per immagazzinare dati. È quindi definito \enquote*{distributed database}. È tollerante ai guasti, qualora siano stati previsti server secondari ridondanti. È scalabile, poichè può immagazzinare dati in più server per bilanciare il carico. Infine è possibile migrare facilmente i database, in modo da conservare i dati vicino agli utenti per garantire accessi veloci.
 
 ShareLaTeX utilizza MongoDB come database principale.
 
 \subsection{Redis}
-Redis è un DBMS non relazionale, anche detto NoSQL. È un progetto open source con licenza BSD 3-Clause. Redis è un archivio di strutture dati, utilizzato sia come database che come meccanismo di caching. Infatti il punto di forza di Redis è la velocità, perché è funziona completamente in memoria RAM ed è scritto in C. Utilizza strutture dati predefinite per migliorare le performance: list, sets, sorted sets, hashes, hyperloglogs, bitmaps, geospatial indexes, bitfields, streams e strings. Redis, oltre ad essere completamente \enquote*{in-memory}, permette la persistenza dei dati e un'alta disponibilità grazie a repliche e backup.
+Redis \cite{redis} è un DBMS non relazionale, anche detto NoSQL. È un progetto open source con licenza BSD 3-Clause. Redis è un archivio di strutture dati, utilizzato sia come database che come meccanismo di caching. Infatti il punto di forza di Redis è la velocità, perché funziona completamente in memoria RAM ed è scritto in C. Utilizza strutture dati predefinite per migliorare le performance: list, sets, sorted sets, hashes, hyperloglogs, bitmaps, geospatial indexes, bitfields, streams e strings. Redis, oltre ad essere completamente \enquote*{in-memory}, permette la persistenza dei dati e un'alta disponibilità grazie a repliche e backup.
 
 ShareLaTeX utilizza Redis principalmente come meccanismo di caching.
 
 
 \section{Sviluppo e distribuzione}
-ShareLaTeX è un'azienda fondata da Henry Oswald e James Allen. Il software ha licenza GNU AGPL v3.0 e il codice sorgente è liberamente accessibile su GitHub (\url{github.com/sharelatex}). Nel corso degli anni la community ha contribuito alla crescita e al miglioramento della piattaforma. La versione online di ShareLaTeX propone diversi piani di abbonamento all'utente, flessibili su base mensile e annuale, con prezzo dimezzato per gli studenti. I vari abbonamenti differiscono per il numero di collaboratori per progetto e per la presenza delle funzionalità aggiuntive di sincronizzazione con Dropbox e GitHub.
+ShareLaTeX è un'azienda fondata da Henry Oswald e James Allen. Il software ha licenza GNU AGPL v3.0 e il codice sorgente è liberamente accessibile su GitHub \cite{sharelatex_gh}. Nel corso degli anni la community ha contribuito alla crescita e al miglioramento della piattaforma. La versione online di ShareLaTeX propone diversi piani di abbonamento all'utente, flessibili su base mensile e annuale, con prezzo dimezzato per gli studenti. I vari abbonamenti differiscono per il numero di collaboratori per progetto e per la presenza delle funzionalità aggiuntive di sincronizzazione con Dropbox e GitHub.
 
-Gli sviluppatori hanno fornito una guida per l'installazione e configurazione dei ShareLaTeX, disponibile all'indirizzo \url{github.com/sharelatex/sharelatex/wiki}. Tale guida è stata usata come riferimento principale per lo svolgimento di questo progetto. Gli sviluppatori hanno inoltre fornito un'immagine aggiornata e funzionante del sistema per la piattaforma Docker all'indirizzo \url{hub.docker.com/u/sharelatex/}.
+Gli sviluppatori hanno fornito una guida per l'installazione e configurazione dei ShareLaTeX \cite{sharelatex_wiki}. Tale guida è stata usata come riferimento principale per lo svolgimento di questo progetto. Gli sviluppatori hanno inoltre fornito un'immagine aggiornata e funzionante del sistema per la piattaforma Docker \cite{sharelatex_docker_hub}.
 
 \section{Overleaf v2}
-Il 20 luglio 2017 ShareLaTeX annuncia la fusione con Overleaf, un altro software per l'editing collaborativo di progetti \LaTeX. Dall'unione nasce Overleaf v2. Dal 4 settembre 2018 ShareLaTeX non è più disponibile e tutti gli account creati sono stati esportati sulla nuova piattaforma all'indirizzo \url{v2.overleaf.com}. Il team ha comunque dichiarato che ShareLaTeX continuerà a crescere e ad essere open source.
+Il 20 luglio 2017 ShareLaTeX annuncia la fusione con Overleaf, un altro software per l'editing collaborativo di progetti \LaTeX. Dall'unione nasce Overleaf v2 \cite{overleaf_v2}. Dal 4 settembre 2018 ShareLaTeX non è più disponibile e tutti gli account creati sono stati esportati sulla nuova piattaforma. Il team ha comunque dichiarato che ShareLaTeX continuerà a crescere e ad essere open source.
 
-L'interfaccia della homepage e dell'editor sono le medesime di ShareLaTeX, con qualche cambiamento estetico. Inoltre è possibile scrivere utilizzando la nuova funzionalità chiamata \enquote*{Rich text}, che consente di visualizzare nella finestra di scrittura un'interfaccia più user-friendly, adatta a chi non è esperto di \LaTeX ~e dei suoi comandi.
+L'interfaccia della homepage e dell'editor sono le medesime di ShareLaTeX, con qualche cambiamento estetico. Inoltre, è possibile scrivere utilizzando la nuova funzionalità chiamata \enquote*{Rich text}, che consente di visualizzare nella finestra di scrittura un'interfaccia più user-friendly, adatta a chi non è esperto di \LaTeX ~e dei suoi comandi.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{immagini/overleaf_homepage.PNG}

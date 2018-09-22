@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,twoside,openright]{book}
+\documentclass[11pt,a4paper,oneside]{book}
 
 %%%% PACCHETTI PER LE IMMAGINI
 \usepackage[dvips]{graphicx}
@@ -12,17 +12,18 @@
 \usepackage{hyperref}
 \usepackage{multicol}
 
+
 %%%% PACCHETTI PER CODICE
 \usepackage[dvipsnames]{xcolor}
 \usepackage[]{listings}
 \renewcommand{\lstlistingname}{Codice}
 \renewcommand{\lstlistlistingname}{Elenco del codice}
-\definecolor{my-red}{rgb}{0.3,0,0}
+\definecolor{my-dark-grey}{rgb}{0.3,0.3,0.3}
 \definecolor{my-grey}{rgb}{0.95,0.95,0.95}
 \lstdefinestyle{my-style}{
     showstringspaces=false,
     basicstyle=\ttfamily\small,
-    commentstyle=\color{my-red},
+    commentstyle=\color{my-dark-grey},
     backgroundcolor=\color{my-grey},
     language=bash,
     literate = {\$\#}{{{\$\#}}}2,
@@ -32,6 +33,10 @@
 
 % per sillabazione
 \hyphenation{a-gen-tiz-za-zio-ne}
+
+% BIBLIOGRAFIA/SITOGRAFIA
+\usepackage[style=numeric, sorting=none]{biblatex}
+\addbibresource{bibliografia.bib}
 
 %\setlength{\paperwidth}{16cm}
 %\setlength{\paperheight}{24cm}
@@ -45,7 +50,7 @@
     headheight=13.6cm
 }
 
-\linespread{1.1}
+\linespread{1.5}
 
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
@@ -64,20 +69,23 @@
 % \frontmatter
 % \include{ringraziamenti}
 
-\thispagestyle{empty}  \cleardoublepage
 \frontmatter
+\thispagestyle{empty}
+\cleardoublepage
 \include{indice}
 
 \thispagestyle{empty} \vspace*{.75truecm} \normalfont \cleardoublepage
-\pagestyle{fancy} \renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}         
-\fancyhead[LE,RO]{\bfseries \thepage}
-\fancyhead[RE]{\bfseries\leftmark}
-\fancyhead[LO]{\bfseries\rightmark}     
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+\lhead{\leftmark}
+\rhead{Cristian Mercadante}
+% \fancyhead[LE,RO]{\bfseries \thepage}
+% \fancyhead[RE]{\bfseries\leftmark}
+% \fancyhead[LO]{\bfseries\rightmark}     
 \renewcommand{\headrulewidth}{0.3pt}
 
 \mainmatter
-
 \input{capitoli/0_elenco.tex}
 
 \cleardoublepage
@@ -86,6 +94,11 @@
 %\bibliographystyle{plain}
 %\bibliography{bibl_tesi}
 %\nocite{*}
+
+% ---- Sitografia ----
+\addcontentsline{toc}{chapter}{Sitografia}
+\nocite{*}
+\printbibliography[title=Sitografia]
 
 \end{document}
 

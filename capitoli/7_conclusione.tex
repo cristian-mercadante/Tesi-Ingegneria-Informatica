@@ -2,20 +2,19 @@
 \label{Conclusione}
 \thispagestyle{empty}
 
-Giunti a questo punto, il servizio è attivo e funzionante. Tutte le fasi precedentemente descritte sono state testate ed eseguite prima dell'installazione finale. Segue la precisazione di alcuni aspetti tralasciati nei precedenti capitoli.
+Giunti a questo punto, il servizio è attivo e funzionante. Tutte le fasi precedentemente descritte sono state testate prima dell'installazione finale. Segue la precisazione di alcuni aspetti tralasciati nei precedenti capitoli.
 
 \section{Funzionalità aggiuntive}
 L'installazione effettuata rispecchia le necessità espresse nell'\hyperref[Introduzione]{capitolo introduttivo}. Alcune funzionalità aggiuntive sono rese disponibili dagli sviluppatori, ma non è stata ritenuta necessaria la loro installazione nel sistema in questione. Sono le seguenti.
 \begin{itemize}
-    \item HTTPS reverse proxy tramite NGINX.
     \item Email tramite Amazon Web Services.
     \item Bilanciamento di carico con HAProxy.
     \item Restrizioni sulle password utente.
 \end{itemize}
-Queste ed altre informazioni sono disponibili sulla guida ufficiale all'indirizzo \url{github.com/sharelatex/sharelatex/wiki}.
+Queste ed altre informazioni sono disponibili sulla guida ufficiale \cite{sharelatex_wiki}.
 
 \section{Requisiti hardware}
-ShareLaTeX raccomanda un core CPU e 1 GB di RAM ogni 5 utenti connessi. Inoltre ShareLaTeX è un programma con un solo thread. L'operazione più onerosa è la compilazione di un documento che è quindi legata alla performance del singolo core. Perciò maggiore sarà la velocità del singolo core, minore sarà il tempo richiesto alla compilazione.
+ShareLaTeX raccomanda un core CPU e 1 GB di RAM ogni 5 utenti connessi. Inoltre ShareLaTeX è un programma con un solo thread. L'operazione più onerosa è la compilazione di un documento che è quindi legata alla performance del singolo core, perciò maggiore sarà la velocità del singolo core, minore sarà il tempo richiesto alla compilazione.
 
 \section{Capacità dei progetti in ShareLaTeX}
 ShareLaTeX è in grado di gestire per ogni progetto fino a 5 MB di dati modificabili (senza includere immagini e altri file non modificabili). Ogni progetto può avere al massimo 2000 entità, ovvero cartelle, file, immagini, ecc. La dimensione massima per un file non modificabile (immagini, ecc.) è di 50 MB.
