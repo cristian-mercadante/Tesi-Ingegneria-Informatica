@@ -1,6 +1,6 @@
 \chapter{Installazione}
 \label{Installazione}
-\thispagestyle{empty}
+\thispagestyle{plain}
 
 %\section{Introduzione}
 L'installazione di ShareLaTeX è stata fatta su una macchina virtuale ospitata da un server del laboratorio AImageLab. Tale macchina ha nome \verb|sharelatex| ed esegue il sistema operativo Ubuntu 18.04 LTS, il più recente alla data corrente. Il sistema è accessibile sia dall'interno dell'ateneo (se collegati alla rete locale), sia dall'esterno, grazie all'apertura della porta 443, all'indirizzo \url{sharelatex.ing.unimore.it}. L'installazione e la configurazione sono avvenute seguendo i passi sotto riportati. L'attuale amministratore del sistema è il Dott. Federico Bolelli.
@@ -99,7 +99,7 @@ sudo docker ps
 \end{lstlisting}
 
 \section{TeX Live}
-TeX Live è un distribuzione del sistema \TeX ~per installare, gestire e aggiornare pacchetti utilizzati per scrivere in \LaTeX. L'installazione completa dei pacchetti di TeX Live è essenziale per poter utilizzare qualsiasi pacchetto all'interno dei propri documenti. La totalità dei pacchetti occupa molta memoria sul disco (circa 7 GB), pertanto l'immagine di ShareLaTeX in Docker Hub presenta solo un'installazione parziale di TeX Live. La procedura di installazione richiederà molto tempo (circa 2 ore). L'immagine utilizzata per il container ShareLaTeX contiene la versione 2017 di TeX Live. Per l'installazione completa dei pacchetti di TeX Live 2018 e la risoluzione dei conflitti dei pacchetti preinstallati versione 2017, si è seguita la guida di aggiornamento fornita da TeX Live \cite{texlive_upgrade}.
+TeX Live \cite{texlive} è un distribuzione del sistema \TeX ~per installare, gestire e aggiornare pacchetti utilizzati per scrivere in \LaTeX. L'installazione completa dei pacchetti di TeX Live è essenziale per poter utilizzare qualsiasi pacchetto all'interno dei propri documenti. La totalità dei pacchetti occupa molta memoria sul disco (circa 7 GB), pertanto l'immagine di ShareLaTeX in Docker Hub presenta solo un'installazione parziale di TeX Live. La procedura di installazione richiederà molto tempo (circa 2 ore). L'immagine utilizzata per il container ShareLaTeX contiene la versione 2017 di TeX Live. Per l'installazione completa dei pacchetti di TeX Live 2018 e la risoluzione dei conflitti dei pacchetti preinstallati versione 2017, si è seguita la guida di aggiornamento fornita da TeX Live \cite{texlive_upgrade}.
 
 \subsection{Fasi preliminari}
 Modificare la variabile d'ambiente \verb|PATH|. Il modo più efficace e persistente consiste nell'aggiunta di \verb|PATH| fra le variabili d'ambiente di ShareLaTeX in \verb|docker-compose.yml|:
@@ -146,3 +146,49 @@ L'installazione completa di TeX Live sarà avviata tramite il comando \verb|exec
 sudo docker exec sharelatex tlmgr install scheme-full
 \end{lstlisting}
 Attendere fino al termine dell'installazione. Eventuali interruzioni non comprometteranno l'installazione, che potrà ricominciare da dove era stata interrotta rilanciando il comando precedente.
+
+\section{NGINX reverse proxy}
+NGINX \cite{nginx} è un software open source che può essere utilizzato come web server, strumento di caching, load balancer, media streamer, ma anche come reverse proxy. In questo paragrafo si vedrà come installare e configurare un reverse proxy NGINX per utilizzare il protocollo HTTPS con ShareLaTeX. Per far è stato necessario ottenere certificato e chiave SSL (Secure Sockets Layer), entrambi forniti dall'amministratore di rete del dipartimento e disponibili sulla macchina nella directory \verb|sharelatex.ing.unimore.it|.
+
+\subsection{Installazione}
+NGINX sarà installato tramite Docker. Si utilizzerà l'immagine \verb|jwilder/nginx-proxy| \cite{nginx-proxy}, che configura un container con NGINX e \emph{docker-gen}. Questo è un generatore di file che crea file di configurazione per NGINX, per renderlo un reverse proxy a seconda dei container attivi. Quindi bisogna includere in \verb|docker-compose.yml| il nuovo container:
+\begin{lstlisting}
+nginx-proxy:
+        image: jwilder/nginx-proxy
+        container_name: nginx-proxy
+        ports:
+            - "443:443"
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+            - /home/sharelatex/tmp:/etc/nginx/certs
+\end{lstlisting}
+È necessario montare i volumi esterni necessari per rendere persistente la configurazione del proxy server. Le directory interessate sono \verb|sharelatex.ing.unimore.it| e \verb|nginx_confd|:
+\begin{lstlisting}
+            - ~/sharelatex.ing.unimore.it:/etc/nginx/cert
+            - ~/nginx_confd:/etc/nginx/conf.d
+\end{lstlisting}
+Successivamente, aggiungere tre variabili d'ambiente a ShareLaTeX:
+\begin{itemize}
+    \item \verb|VIRTUAL_HOST|: indica l'indirizzo IP con cui il proxy può contattare ShareLaTeX.
+    \item \verb|SHARELATEX_SECURE_COOKIE|: abilita lo scambio di Secure Cookie fra client e server.
+    \item \verb|SHARELATEX_BEHIND_PROXY|: notifica all'applicazione dell'esistenza del proxy.
+\end{itemize}
+\begin{lstlisting}
+VIRTUAL_HOST: 103.112.212.22
+SHARELATEX_SECURE_COOKIE: 'true'
+SHARELATEX_BEHIND_PROXY: 'true'
+\end{lstlisting}
+Riavviare successivamente i container:
+\begin{lstlisting}
+sudo docker-compose up -d
+\end{lstlisting}
+
+\subsection{Configurazione}
+Esplorare la directory \verb|nginx_confd|. Sarà presente il file \verb|default.conf|, generato dal container. Questo file configura il proxy includendo qualsiasi file con estensione \verb|.conf|. Scaricare quindi il file \verb|sharelatex.conf|:
+\begin{lstlisting}
+cd nginx_confd
+wget https://raw.githubusercontent.com/aimagelab/sharelatex/master/sharelatex.conf
+\end{lstlisting}
+Il file è il seguente:
+\lstinputlisting[caption={sharelatex.conf}, captionpos=b, style=my-style]{script/sharelatex.conf}
+Si configura il server per ascoltare sulla porta 443, abilitando SSL, indicando certificato e chiave SSL. È importante indicare \verb|proxy_pass http://103.112.212.22|, per inoltrare tutto il traffico all'indirizzo IP 103.112.212.22, che corrisponde al \verb|VIRTUAL_HOST| di ShareLaTeX.

@@ -70,22 +70,25 @@
 % \include{ringraziamenti}
 
 \frontmatter
-\thispagestyle{empty}
-\cleardoublepage
-\include{indice}
-
-\thispagestyle{empty} \vspace*{.75truecm} \normalfont \cleardoublepage
+%\thispagestyle{empty}
 \pagestyle{fancy}
+% \fancyhead[LE,RO]{\bfseries \thepage}
+% \fancyhead[RE]{\bfseries\leftmark}
+% \fancyhead[LO]{\bfseries\rightmark}  
 \renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
 \lhead{\leftmark}
 \rhead{Cristian Mercadante}
-% \fancyhead[LE,RO]{\bfseries \thepage}
-% \fancyhead[RE]{\bfseries\leftmark}
-% \fancyhead[LO]{\bfseries\rightmark}     
+\cleardoublepage
+\include{indice}
+
+\thispagestyle{empty} \vspace*{.75truecm} \normalfont \cleardoublepage
+
+   
 \renewcommand{\headrulewidth}{0.3pt}
 
 \mainmatter
+\lhead{\leftmark}
 \input{capitoli/0_elenco.tex}
 
 \cleardoublepage
@@ -98,6 +101,7 @@
 % ---- Sitografia ----
 \addcontentsline{toc}{chapter}{Sitografia}
 \nocite{*}
+\lhead{Sitografia}
 \printbibliography[title=Sitografia]
 
 \end{document}

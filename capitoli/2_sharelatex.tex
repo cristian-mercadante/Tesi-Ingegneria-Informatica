@@ -1,6 +1,6 @@
 \chapter{ShareLaTeX}
 \label{ShareLaTeX}
-\thispagestyle{empty}
+\thispagestyle{plain}
 
 ShareLaTeX è uno strumento assai diffuso all'interno della comunità scientifica e accademica. È un editor di documenti in linguaggio \LaTeX ~che presenta numerose funzionalità che lo distinguono dai normali editor.
 
@@ -23,12 +23,6 @@ L'interfaccia dell'editor è divisa in tre parti:
     \item La finestra di editor vera e propria, dove l'utente scrive testo e comandi \LaTeX, con evidenziazione della sintassi e autocompletamento dei comandi.
     \item La finestra di anteprima del documento, che presenta l'esito della compilazione.
 \end{itemize}
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{immagini/editor.PNG}
-    \caption{Interfaccia dell'editor di ShareLaTeX}
-    \label{fig:sharelatex_editor}
-\end{figure}
 Nell'editor è inoltre possibile condividere il progetto con altri utenti, visualizzare la cronologia delle modifiche e la chat di progetto, mediante i tre pulsanti in alto a destra.
 Il pulsante \enquote*{Menu} in alto a sinistra mostra una colonna aggiuntiva dalla quale è possibile:
 \begin{itemize}
@@ -41,7 +35,12 @@ Il pulsante \enquote*{Menu} in alto a sinistra mostra una colonna aggiuntiva dal
     \item Selezionare il tema della schermata dell'editor e la dimensione del font.
     \item Mostrare/modificare le scorciatoie da tastiera dell'editor.
 \end{itemize}
-
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{immagini/editor.PNG}
+    \caption{Interfaccia dell'editor di ShareLaTeX}
+    \label{fig:sharelatex_editor}
+\end{figure}
 \section{Database}
 ShareLaTeX necessita di due DBMS per funzionare: MongoDB e Redis. In seguito si presentano tali servizi, mettendo in luce i loro punti di forza.
 
