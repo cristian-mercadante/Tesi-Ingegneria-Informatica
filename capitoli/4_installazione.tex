@@ -67,7 +67,7 @@ Docker Compose non è incluso all'interno di Docker CE. La sua installazione è 
 \end{figure}
 
 \subsection{Download e installazione}
-Con il comando che segue è possibile scaricare la versione 1.21.2 di Docker Compose. Per installare un'altra versione del software, eventualmente più aggiornata, è necessario modificare l'URL inserendo la versione richiesta. Per informazioni sull'ultima versione disponibile, visitare \verb|github.com/docker/compose/releases|.
+Con il comando che segue è possibile scaricare la versione 1.21.2 di Docker Compose. Per installare un'altra versione del software, eventualmente più aggiornata, è necessario modificare l'URL inserendo la versione richiesta \cite{docker_compose_release}.
 \begin{lstlisting}
 sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 \end{lstlisting}
@@ -148,10 +148,10 @@ sudo docker exec sharelatex tlmgr install scheme-full
 Attendere fino al termine dell'installazione. Eventuali interruzioni non comprometteranno l'installazione, che potrà ricominciare da dove era stata interrotta rilanciando il comando precedente.
 
 \section{NGINX reverse proxy}
-NGINX \cite{nginx} è un software open source che può essere utilizzato come web server, strumento di caching, load balancer, media streamer, ma anche come reverse proxy. In questo paragrafo si vedrà come installare e configurare un reverse proxy NGINX per utilizzare il protocollo HTTPS con ShareLaTeX. Per far è stato necessario ottenere certificato e chiave SSL (Secure Sockets Layer), entrambi forniti dall'amministratore di rete del dipartimento e disponibili sulla macchina nella directory \verb|sharelatex.ing.unimore.it|.
+NGINX \cite{nginx} è un software open source che può essere utilizzato come web server, strumento di caching, load balancer, media streamer, ma anche come reverse proxy. In questo paragrafo si vedrà come installare e configurare un reverse proxy NGINX per utilizzare il protocollo HTTPS con ShareLaTeX. Per far ciò è stato necessario ottenere certificato e chiave SSL (Secure Sockets Layer), entrambi forniti dall'amministratore di rete del dipartimento e disponibili sulla macchina nella directory \verb|sharelatex.ing.unimore.it|.
 
 \subsection{Installazione}
-NGINX sarà installato tramite Docker. Si utilizzerà l'immagine \verb|jwilder/nginx-proxy| \cite{nginx-proxy}, che configura un container con NGINX e \emph{docker-gen}. Questo è un generatore di file che crea file di configurazione per NGINX, per renderlo un reverse proxy a seconda dei container attivi. Quindi bisogna includere in \verb|docker-compose.yml| il nuovo container:
+NGINX sarà installato tramite Docker. Si utilizzerà l'immagine \verb|jwilder/nginx-proxy| \cite{nginx-proxy}, che configura un container con NGINX e \emph{docker-gen}. Questo è un generatore di file che creaconfigurazioni per NGINX, per adattare il reverse proxy a seconda dei container attivi. Quindi bisogna includere in \verb|docker-compose.yml| il nuovo container:
 \begin{lstlisting}
 nginx-proxy:
         image: jwilder/nginx-proxy
@@ -169,7 +169,7 @@ nginx-proxy:
 \end{lstlisting}
 Successivamente, aggiungere tre variabili d'ambiente a ShareLaTeX:
 \begin{itemize}
-    \item \verb|VIRTUAL_HOST|: indica l'indirizzo IP con cui il proxy può contattare ShareLaTeX.
+    \item \verb|VIRTUAL_HOST|: indica l'indirizzo IP con cui il proxy può raggiungere il container ShareLaTeX.
     \item \verb|SHARELATEX_SECURE_COOKIE|: abilita lo scambio di Secure Cookie fra client e server.
     \item \verb|SHARELATEX_BEHIND_PROXY|: notifica all'applicazione dell'esistenza del proxy.
 \end{itemize}

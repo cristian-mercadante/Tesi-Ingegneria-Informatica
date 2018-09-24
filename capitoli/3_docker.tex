@@ -53,7 +53,7 @@ Docker Compose è uno strumento per definire ed avviare servizi multi-container 
 
 Segue un estratto di \verb|docker-compose.yml| utilizzato per il progetto:
 \lstinputlisting[lastline=17, caption={Esempio di docker-compose.yml}, captionpos=b, label={esempio_dcyml}]{script/docker-compose.yml}
-Nell'esempio (\hyperref[esempio_dcyml]{Codice: 3.1}) è indicata la versione del formato del file, seguita dai servizi da gestire. Con il parametro \verb|restart: always| si impone che in caso di errore del container ShareLaTex venga riavviato. A seguire si specifica il nome dell'immagine di riferimento, il nome del container che verrà creato, le dipendenze, la priorità del container sugli altri, il numero di porta, i collegamenti con altri container e, infine, i volumi da montare sull'host per la persistenza dei dati.
+Nell'esempio (\hyperref[esempio_dcyml]{Codice: 3.1}) è indicata la versione del formato del file, seguita dai servizi da gestire. Con il parametro \verb|restart: always| si impone che, in caso di errore del container ShareLaTeX, questo venga riavviato. A seguire si specifica il nome dell'immagine di riferimento, il nome del container che verrà creato, le dipendenze, la priorità del container sugli altri, il numero di porta, i collegamenti con altri container e, infine, i volumi da montare sull'host per la persistenza dei dati.
  
 \section{Tecnologia sottostante}
 Docker è scritto in linguaggio GO ed utilizza diverse funzionalità del kernel Linux per eseguire container in ambienti controllati, in modo leggero e veloce. Tali funzionalità sono raccolte all'interno della libreria \emph{libcontainer}, che permette a Docker Engine di gestire il ciclo di vita dei container.
