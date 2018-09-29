@@ -151,7 +151,7 @@ Attendere fino al termine dell'installazione. Eventuali interruzioni non comprom
 NGINX \cite{nginx} è un software open source che può essere utilizzato come web server, strumento di caching, load balancer, media streamer, ma anche come reverse proxy. In questo paragrafo si vedrà come installare e configurare un reverse proxy NGINX per utilizzare il protocollo HTTPS con ShareLaTeX. Per far ciò è stato necessario ottenere certificato e chiave SSL (Secure Sockets Layer), entrambi forniti dall'amministratore di rete del dipartimento e disponibili sulla macchina nella directory \verb|sharelatex.ing.unimore.it|.
 
 \subsection{Installazione}
-NGINX sarà installato tramite Docker. Si utilizzerà l'immagine \verb|jwilder/nginx-proxy| \cite{nginx-proxy}, che configura un container con NGINX e \emph{docker-gen}. Questo è un generatore di file che creaconfigurazioni per NGINX, per adattare il reverse proxy a seconda dei container attivi. Quindi bisogna includere in \verb|docker-compose.yml| il nuovo container:
+NGINX sarà installato tramite Docker. Si utilizzerà l'immagine \verb|jwilder/nginx-proxy| \cite{nginx-proxy}, che configura un container con NGINX e \emph{docker-gen}. Questo è un generatore di file che crea configurazioni per NGINX, per adattare il reverse proxy a seconda dei container attivi. Quindi bisogna includere in \verb|docker-compose.yml| il nuovo container:
 \begin{lstlisting}
 nginx-proxy:
         image: jwilder/nginx-proxy
@@ -162,7 +162,7 @@ nginx-proxy:
             - /var/run/docker.sock:/tmp/docker.sock:ro
             - /home/sharelatex/tmp:/etc/nginx/certs
 \end{lstlisting}
-È necessario montare i volumi esterni necessari per rendere persistente la configurazione del proxy server. Le directory interessate sono \verb|sharelatex.ing.unimore.it| e \verb|nginx_confd|:
+È necessario montare i volumi esterni per rendere persistente la configurazione del proxy server. Le directory interessate sono \verb|sharelatex.ing.unimore.it| e \verb|nginx_confd|:
 \begin{lstlisting}
             - ~/sharelatex.ing.unimore.it:/etc/nginx/cert
             - ~/nginx_confd:/etc/nginx/conf.d
@@ -178,7 +178,7 @@ VIRTUAL_HOST: 103.112.212.22
 SHARELATEX_SECURE_COOKIE: 'true'
 SHARELATEX_BEHIND_PROXY: 'true'
 \end{lstlisting}
-Riavviare successivamente i container:
+Riavviare quindi i container:
 \begin{lstlisting}
 sudo docker-compose up -d
 \end{lstlisting}
